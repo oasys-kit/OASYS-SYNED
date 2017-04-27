@@ -12,8 +12,8 @@ from oasys.widgets import congruence
 
 from oasys.widgets.gui import ConfirmDialog
 
-from syned.storage_ring import light_source
-
+from syned.storage_ring import light_source as synedls
+from syned.beamline import beamline as synedb
 
 class LightSource(OWWidget):
 
@@ -22,9 +22,9 @@ class LightSource(OWWidget):
     category = "Syned Light Sources"
     keywords = ["data", "file", "load", "read"]
 
-    outputs = [{"name":"SynedLightSource",
-                "type":light_source.LightSource,
-                "doc":"Syned Light Source",
+    outputs = [{"name":"SynedBeamline",
+                "type":synedb.Beamline,
+                "doc":"Syned Beamline",
                 "id":"data"}]
 
     source_name         = Setting("Undefined")
@@ -145,7 +145,7 @@ class LightSource(OWWidget):
         self.check_data()
 
 
-        electron_beam = light_source.ElectronBeam(energy_in_GeV=self.electron_energy_in_GeV,
+        electron_beam = synedls.ElectronBeam(energy_in_GeV=self.electron_energy_in_GeV,
                                      energy_spread=self.electron_energy_spread,
                                      current=self.ring_current,
                                      number_of_bunches=self.number_of_bunches)
@@ -165,9 +165,12 @@ class LightSource(OWWidget):
                                          sigma_yp=self.electron_beam_divergence_v)
 
 
-        self.send("SynedLightSource", light_source.LightSource(name=self.source_name,
-                                                  electron_beam = electron_beam,
-                                                  magnetic_structure = self.get_magnetic_structure()))
+
+        light_source = synedls.LightSource(name=self.source_name,
+                                                electron_beam = electron_beam,
+                                                magnetic_structure = self.get_magnetic_structure())
+
+        self.send("SynedBeamline", synedb.Beamline(light_source=light_source))
 
 
     def check_magnetic_structure(self):
