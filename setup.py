@@ -52,8 +52,8 @@ NAMESPACE_PACAKGES = ["orangecontrib", "orangecontrib.syned", "orangecontrib.syn
 ENTRY_POINTS = {
     'oasys.addons' : ("syned = orangecontrib.syned", ),
     'oasys.widgets' : (
-        "SYNED SOURCES = orangecontrib.wise.widgets.wise",
-        "SYNED BEAMLINE ELEMENTS = orangecontrib.wise.widgets.beamline_elements",
+        "Syned Sources = orangecontrib.syned.widgets.light_sources",
+        "Syned Beamline Elements = orangecontrib.syned.widgets.beamline_elements",
     ),
 }
 

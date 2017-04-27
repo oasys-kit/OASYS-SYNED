@@ -9,12 +9,12 @@ Widgets for association rules.
 
 # Category description for the widget registry
 
-NAME = "Syned Beamline Elements"
+NAME = "Syned Light Sources"
 
 DESCRIPTION = "Widgets for Syned"
 
 BACKGROUND = "#dec0a0"
 
-ICON = "icons/beamline_elements.png"
+ICON = "icons/light_sources.png"
 
-PRIORITY = 3
+PRIORITY = 2
