@@ -172,7 +172,6 @@ class LightSource(OWWidget):
 
         self.send("SynedBeamline", synedb.Beamline(light_source=light_source))
 
-
     def check_magnetic_structure(self):
         raise NotImplementedError("Shoudl be implemented in subclasses")
 
