@@ -45,6 +45,7 @@ PACKAGES = find_packages(exclude=('*.tests', '*.tests.*', 'tests.*', 'tests'))
 PACKAGE_DATA = {
     "orangecontrib.syned.widgets.sources":["icons/*.png", "icons/*.jpg"],
     "orangecontrib.syned.widgets.beamline_elements":["icons/*.png", "icons/*.jpg"],
+    "orangecontrib.syned.widgets.util":["icons/*.png", "icons/*.jpg"],
 }
 
 NAMESPACE_PACAKGES = ["orangecontrib", "orangecontrib.syned", "orangecontrib.syned.widgets"]
@@ -54,6 +55,7 @@ ENTRY_POINTS = {
     'oasys.widgets' : (
         "Syned Sources = orangecontrib.syned.widgets.light_sources",
         "Syned Beamline Elements = orangecontrib.syned.widgets.beamline_elements",
+        "Syned Utilities = orangecontrib.syned.widgets.util",
     ),
 }
 
