@@ -36,7 +36,7 @@ SETUP_REQUIRES = (
 )
 
 INSTALL_REQUIRES = (
-    'oasys>=0.1.25',
+    'oasys1',
     'syned',
 )
 
