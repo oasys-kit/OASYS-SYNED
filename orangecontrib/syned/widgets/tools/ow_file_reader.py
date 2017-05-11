@@ -90,8 +90,7 @@ if __name__ == "__main__":
 
     a = QApplication(sys.argv)
     ow = FileReader()
-    ow.syned_file_name = "" # /scisoft/xop2.4/extensions/shadowvui/shadow3-scripts/ESRF-LIGHTSOURCES/ESRF_ID30_HighBeta_PPU35_23.json"
-
+    ow.syned_file_name = "http://ftp.esrf.eu/pub/scisoft/syned/lightsources/ESRF_ID1_EBS_ppu27_9.json"
     ow.show()
     a.exec_()
 
