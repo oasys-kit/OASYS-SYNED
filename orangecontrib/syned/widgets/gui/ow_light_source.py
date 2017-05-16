@@ -135,15 +135,12 @@ class LightSource(OWWidget):
 
         # controlli di congruenza
 
-        pass
-
         self.check_magnetic_structure()
 
 
     def send_data(self):
 
         self.check_data()
-
 
         electron_beam = synedls.ElectronBeam(energy_in_GeV=self.electron_energy_in_GeV,
                                      energy_spread=self.electron_energy_spread,

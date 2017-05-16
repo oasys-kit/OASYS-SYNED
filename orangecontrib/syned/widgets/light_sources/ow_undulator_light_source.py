@@ -1,13 +1,8 @@
 import sys
 
 from PyQt4.QtGui import QPalette, QColor, QFont, QMessageBox, QApplication
-from orangewidget import gui
-from orangewidget import widget
-from orangewidget.settings import Setting
-from oasys.widgets import gui as oasysgui
-from oasys.widgets import congruence
 
-from syned.storage_ring.light_source import LightSource, ElectronBeam, MagneticStructure
+from syned.storage_ring.magnetic_structures.undulator import Undulator
 
 from orangecontrib.syned.widgets.gui import ow_insertion_device
 
@@ -20,6 +15,12 @@ class UndulatorLightSource(ow_insertion_device.InsertionDevice):
 
     def __init__(self):
         super().__init__()
+
+    def get_magnetic_structure(self):
+        return Undulator(K_horizontal=self.K_horizontal,
+                         K_vertical=self.K_vertical,
+                         period_length=self.period_length,
+                         number_of_periods=self.number_of_periods)
 
 
 if __name__ == "__main__":
