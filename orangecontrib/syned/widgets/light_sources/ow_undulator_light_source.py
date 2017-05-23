@@ -1,6 +1,7 @@
 import sys
 
-from PyQt4.QtGui import QPalette, QColor, QFont, QMessageBox, QApplication
+from PyQt5.QtWidgets import QMessageBox, QApplication
+from PyQt5.QtGui import QPalette, QColor, QFont
 
 from syned.storage_ring.magnetic_structures.undulator import Undulator
 
