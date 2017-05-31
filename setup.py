@@ -7,7 +7,7 @@ try:
 except AttributeError:
     from setuptools import find_packages, setup
 
-NAME = 'OASYS-SYNED'
+NAME = 'OASYS1-SYNED'
 VERSION = '1.0.0'
 ISRELEASED = False
 
