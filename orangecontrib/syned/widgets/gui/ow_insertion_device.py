@@ -12,7 +12,7 @@ from syned.storage_ring.magnetic_structures import insertion_device
 
 from orangecontrib.syned.widgets.gui import ow_light_source
 
-class InsertionDevice(ow_light_source.LightSource):
+class OWInsertionDevice(ow_light_source.OWLightSource):
 
     K_horizontal       = Setting(0.0)
     K_vertical         = Setting(0.0)

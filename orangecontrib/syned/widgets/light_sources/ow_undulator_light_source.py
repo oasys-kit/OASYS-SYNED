@@ -7,7 +7,7 @@ from syned.storage_ring.magnetic_structures.undulator import Undulator
 
 from orangecontrib.syned.widgets.gui import ow_insertion_device
 
-class UndulatorLightSource(ow_insertion_device.InsertionDevice):
+class OWUndulatorLightSource(ow_insertion_device.OWInsertionDevice):
 
     name = "Undulator Light Source"
     description = "Syned: Undulator Light Source"
@@ -26,7 +26,7 @@ class UndulatorLightSource(ow_insertion_device.InsertionDevice):
 
 if __name__ == "__main__":
     a = QApplication(sys.argv)
-    ow = UndulatorLightSource()
+    ow = OWUndulatorLightSource()
     ow.show()
     a.exec_()
     #ow.saveSettings()

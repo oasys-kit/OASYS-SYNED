@@ -3,20 +3,22 @@ __author__ = 'labx'
 import os, sys
 
 from PyQt5.QtGui import QPalette, QColor, QFont
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QApplication
+from PyQt5.QtCore import QRect
+
 from orangewidget import gui
 from orangewidget import widget
-from oasys.widgets.widget import OWWidget
 from orangewidget.settings import Setting
+
+from oasys.widgets.widget import OWWidget
 from oasys.widgets import gui as oasysgui
 from oasys.widgets import congruence
-
 from oasys.widgets.gui import ConfirmDialog
 
-from syned.storage_ring import light_source as synedls
-from syned.beamline import beamline as synedb
+from syned.storage_ring.light_source import LightSource, ElectronBeam
+from syned.beamline.beamline import Beamline
 
-class LightSource(OWWidget):
+class OWLightSource(OWWidget):
 
     maintainer = "Luca Rebuffi"
     maintainer_email = "luca.rebuffi(@at@)elettra.eu"
@@ -24,7 +26,7 @@ class LightSource(OWWidget):
     keywords = ["data", "file", "load", "read"]
 
     outputs = [{"name":"SynedBeamline",
-                "type":synedb.Beamline,
+                "type":Beamline,
                 "doc":"Syned Beamline",
                 "id":"data"}]
 
@@ -51,8 +53,11 @@ class LightSource(OWWidget):
 
     want_main_area=0
 
-    TABS_AREA_HEIGHT = 618
-    CONTROL_AREA_WIDTH = 405
+    MAX_WIDTH = 460
+    MAX_HEIGHT = 700
+
+    TABS_AREA_HEIGHT = 625
+    CONTROL_AREA_WIDTH = 450
 
     def __init__(self):
         super().__init__()
@@ -84,6 +89,15 @@ class LightSource(OWWidget):
 
         gui.separator(self.controlArea)
 
+        geom = QApplication.desktop().availableGeometry()
+        self.setGeometry(QRect(round(geom.width()*0.05),
+                               round(geom.height()*0.05),
+                               round(min(geom.width()*0.98, self.MAX_WIDTH)),
+                               round(min(geom.height()*0.95, self.MAX_HEIGHT))))
+
+        self.setMaximumHeight(self.geometry().height())
+        self.setMaximumWidth(self.geometry().width())
+
         self.controlArea.setFixedWidth(self.CONTROL_AREA_WIDTH)
 
         tabs_setting = oasysgui.tabWidget(self.controlArea)
@@ -94,7 +108,7 @@ class LightSource(OWWidget):
 
         oasysgui.lineEdit(self.tab_sou, self, "source_name", "Light Source Name", labelWidth=260, valueType=str, orientation="horizontal")
 
-        self.electron_beam_box = oasysgui.widgetBox(self.tab_sou, "Electron Beam/Machine Parameters", addSpace=True, orientation="vertical")
+        self.electron_beam_box = oasysgui.widgetBox(self.tab_sou, "Electron Beam/Machine Parameters", addSpace=False, orientation="vertical")
 
         oasysgui.lineEdit(self.electron_beam_box, self, "electron_energy_in_GeV", "Energy [GeV]", labelWidth=260, valueType=float, orientation="horizontal")
         oasysgui.lineEdit(self.electron_beam_box, self, "electron_energy_spread", "Energy Spread", labelWidth=260, valueType=float, orientation="horizontal")
@@ -105,7 +119,7 @@ class LightSource(OWWidget):
                      callback=self.set_TypeOfProperties,
                      sendSelectedValue=False, orientation="horizontal")
 
-        self.left_box_2_1 = oasysgui.widgetBox(self.electron_beam_box, "", addSpace=True, orientation="vertical", height=150)
+        self.left_box_2_1 = oasysgui.widgetBox(self.electron_beam_box, "", addSpace=False, orientation="vertical", height=150)
 
         oasysgui.lineEdit(self.left_box_2_1, self, "moment_xx", "Moment xx   [m^2]", labelWidth=260, valueType=float, orientation="horizontal")
         oasysgui.lineEdit(self.left_box_2_1, self, "moment_xxp", "Moment xxp  [m.rad]", labelWidth=260, valueType=float, orientation="horizontal")
@@ -115,7 +129,7 @@ class LightSource(OWWidget):
         oasysgui.lineEdit(self.left_box_2_1, self, "moment_ypyp", "Moment ypyp [rad^2]", labelWidth=260, valueType=float, orientation="horizontal")
 
 
-        self.left_box_2_2 = oasysgui.widgetBox(self.electron_beam_box, "", addSpace=True, orientation="vertical", height=150)
+        self.left_box_2_2 = oasysgui.widgetBox(self.electron_beam_box, "", addSpace=False, orientation="vertical", height=150)
 
         oasysgui.lineEdit(self.left_box_2_2, self, "electron_beam_size_h", "Horizontal Beam Size [m]", labelWidth=260, valueType=float, orientation="horizontal")
         oasysgui.lineEdit(self.left_box_2_2, self, "electron_beam_size_v", "Vertical Beam Size [m]", labelWidth=260, valueType=float, orientation="horizontal")
@@ -140,35 +154,40 @@ class LightSource(OWWidget):
 
 
     def send_data(self):
+        try:
+            self.check_data()
 
-        self.check_data()
-
-        electron_beam = synedls.ElectronBeam(energy_in_GeV=self.electron_energy_in_GeV,
-                                     energy_spread=self.electron_energy_spread,
-                                     current=self.ring_current,
-                                     number_of_bunches=self.number_of_bunches)
-
-
-        if self.type_of_properties == 0:
-            electron_beam._moment_xx   = self.moment_xx
-            electron_beam._moment_xxp  = self.moment_xxp
-            electron_beam._moment_xpxp = self.moment_xpxp
-            electron_beam._moment_yy   = self.moment_yy
-            electron_beam._moment_yyp  = self.moment_yyp
-            electron_beam._moment_ypyp = self.moment_ypyp
-        else:
-            electron_beam.set_sigmas_all(sigma_x=self.electron_beam_size_h,
-                                         sigma_y=self.electron_beam_size_v,
-                                         sigma_xp=self.electron_beam_divergence_h,
-                                         sigma_yp=self.electron_beam_divergence_v)
+            electron_beam = ElectronBeam(energy_in_GeV=self.electron_energy_in_GeV,
+                                         energy_spread=self.electron_energy_spread,
+                                         current=self.ring_current,
+                                         number_of_bunches=self.number_of_bunches)
 
 
+            if self.type_of_properties == 0:
+                electron_beam._moment_xx   = self.moment_xx
+                electron_beam._moment_xxp  = self.moment_xxp
+                electron_beam._moment_xpxp = self.moment_xpxp
+                electron_beam._moment_yy   = self.moment_yy
+                electron_beam._moment_yyp  = self.moment_yyp
+                electron_beam._moment_ypyp = self.moment_ypyp
+            else:
+                electron_beam.set_sigmas_all(sigma_x=self.electron_beam_size_h,
+                                             sigma_y=self.electron_beam_size_v,
+                                             sigma_xp=self.electron_beam_divergence_h,
+                                             sigma_yp=self.electron_beam_divergence_v)
 
-        light_source = synedls.LightSource(name=self.source_name,
-                                                electron_beam = electron_beam,
-                                                magnetic_structure = self.get_magnetic_structure())
 
-        self.send("SynedBeamline", synedb.Beamline(light_source=light_source))
+
+            light_source = LightSource(name=self.source_name,
+                                                    electron_beam = electron_beam,
+                                                    magnetic_structure = self.get_magnetic_structure())
+
+            self.send("SynedBeamline", Beamline(light_source=light_source))
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e.args[0]), QMessageBox.Ok)
+
+            self.setStatusMessage("")
+            self.progressBarFinished()
 
     def check_magnetic_structure(self):
         raise NotImplementedError("Shoudl be implemented in subclasses")
