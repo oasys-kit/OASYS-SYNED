@@ -131,8 +131,8 @@ class OWLightSource(OWWidget):
 
         self.left_box_2_2 = oasysgui.widgetBox(self.electron_beam_box, "", addSpace=False, orientation="vertical", height=150)
 
-        oasysgui.lineEdit(self.left_box_2_2, self, "electron_beam_size_h", "Horizontal Beam Size [m]", labelWidth=260, valueType=float, orientation="horizontal")
-        oasysgui.lineEdit(self.left_box_2_2, self, "electron_beam_size_v", "Vertical Beam Size [m]", labelWidth=260, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(self.left_box_2_2, self, "electron_beam_size_h",       "Horizontal Beam Size [m]", labelWidth=260, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(self.left_box_2_2, self, "electron_beam_size_v",       "Vertical Beam Size [m]",  labelWidth=260, valueType=float, orientation="horizontal")
         oasysgui.lineEdit(self.left_box_2_2, self, "electron_beam_divergence_h", "Horizontal Beam Divergence [rad]", labelWidth=260, valueType=float, orientation="horizontal")
         oasysgui.lineEdit(self.left_box_2_2, self, "electron_beam_divergence_v", "Vertical Beam Divergence [rad]", labelWidth=260, valueType=float, orientation="horizontal")
 
@@ -147,8 +147,22 @@ class OWLightSource(OWWidget):
 
 
     def check_data(self):
+        congruence.checkStrictlyPositiveNumber(self.electron_energy_in_GeV , "Energy")
+        congruence.checkStrictlyPositiveNumber(self.electron_energy_spread, "Energy Spread")
+        congruence.checkStrictlyPositiveNumber(self.ring_current, "Ring Current")
 
-        # controlli di congruenza
+        if self.type_of_properties == 0:
+            congruence.checkPositiveNumber(self.moment_xx   , "Moment xx")
+            congruence.checkPositiveNumber(self.moment_xxp  , "Moment xxp")
+            congruence.checkPositiveNumber(self.moment_xpxp , "Moment xpxp")
+            congruence.checkPositiveNumber(self.moment_yy   , "Moment yy")
+            congruence.checkPositiveNumber(self.moment_yyp  , "Moment yyp")
+            congruence.checkPositiveNumber(self.moment_ypyp , "Moment ypyp")
+        else:
+            congruence.checkPositiveNumber(self.electron_beam_size_h       , "Horizontal Beam Size")
+            congruence.checkPositiveNumber(self.electron_beam_divergence_h , "Vertical Beam Size")
+            congruence.checkPositiveNumber(self.electron_beam_size_v       , "Horizontal Beam Divergence")
+            congruence.checkPositiveNumber(self.electron_beam_divergence_v , "Vertical Beam Divergence")
 
         self.check_magnetic_structure()
 
@@ -161,7 +175,6 @@ class OWLightSource(OWWidget):
                                          energy_spread=self.electron_energy_spread,
                                          current=self.ring_current,
                                          number_of_bunches=self.number_of_bunches)
-
 
             if self.type_of_properties == 0:
                 electron_beam._moment_xx   = self.moment_xx
@@ -176,11 +189,9 @@ class OWLightSource(OWWidget):
                                              sigma_xp=self.electron_beam_divergence_h,
                                              sigma_yp=self.electron_beam_divergence_v)
 
-
-
             light_source = LightSource(name=self.source_name,
-                                                    electron_beam = electron_beam,
-                                                    magnetic_structure = self.get_magnetic_structure())
+                                       electron_beam = electron_beam,
+                                       magnetic_structure = self.get_magnetic_structure())
 
             self.send("SynedBeamline", Beamline(light_source=light_source))
         except Exception as e:
