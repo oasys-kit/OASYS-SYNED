@@ -1,11 +1,6 @@
-import os, sys
-
-from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import gui as oasysgui
 from oasys.widgets import congruence
-
-from oasys.util.oasys_util import ChemicalFormulaParser
 
 from orangecontrib.syned.widgets.gui.ow_optical_element import OWOpticalElement
 
