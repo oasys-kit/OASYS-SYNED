@@ -85,7 +85,7 @@ class FileReader(oasyswidget.OWWidget):
 
 
 if __name__ == "__main__":
-    from PyQt4.QtGui import QApplication
+    from PyQt5.QtWidgets import QApplication
     import sys
 
     a = QApplication(sys.argv)
