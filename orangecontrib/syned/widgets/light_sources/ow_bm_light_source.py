@@ -27,8 +27,8 @@ class OWBMLightSource(ow_light_source.OWLightSource):
 
         left_box_1 = oasysgui.widgetBox(self.tab_sou, "BM Parameters", addSpace=True, orientation="vertical")
 
-        oasysgui.lineEdit(left_box_1, self, "radius", "Radius [m]", labelWidth=260, valueType=float, orientation="horizontal")
-        oasysgui.lineEdit(left_box_1, self, "magnetic_field", "Magnetic Field [T]", labelWidth=260, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_1, self, "radius", "Radius [m]", callback=self.calculateMagneticField, labelWidth=260, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(left_box_1, self, "magnetic_field", "Magnetic Field [T]", callback=self.calculateMagneticRadius, labelWidth=260, valueType=float, orientation="horizontal")
         oasysgui.lineEdit(left_box_1, self, "length", "Length [m]", labelWidth=260, valueType=float, orientation="horizontal")
 
     def check_magnetic_structure(self):
@@ -40,6 +40,14 @@ class OWBMLightSource(ow_light_source.OWLightSource):
         return BendingMagnet(radius=self.radius,
                              magnetic_field=self.magnetic_field,
                              length=self.length)
+
+    def calculateMagneticField(self):
+        if self.radius > 0:
+           self.magnetic_field=BendingMagnet.calculate_magnetic_field(self.radius, self.electron_energy_in_GeV)
+
+    def calculateMagneticRadius(self):
+        if self.magnetic_field > 0:
+           self.radius=BendingMagnet.calculate_magnetic_radius(self.magnetic_field, self.electron_energy_in_GeV)
 
 if __name__ == "__main__":
     a = QApplication(sys.argv)
