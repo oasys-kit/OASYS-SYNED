@@ -66,8 +66,8 @@ class OWSlit(OWOpticalElement):
         elif self.shape == 1:
             boundary_shape = Ellipse(min_ax_left=-0.5*self.radius + self.horizontal_shift,
                                      min_ax_right=0.5*self.radius + self.horizontal_shift,
-                                     maj_ax_left=-0.5*self.radius + self.vertical_shift,
-                                     maj_ax_right=0.5*self.radius + self.vertical_shift)
+                                     maj_ax_bottom=-0.5*self.radius + self.vertical_shift,
+                                     maj_ax_top=0.5*self.radius + self.vertical_shift)
 
         return Slit(boundary_shape=boundary_shape)
 
