@@ -26,7 +26,7 @@ class OWOpticalElement(OWWidget, WidgetDecorator):
     keywords = ["data", "file", "load", "read"]
     category = "Syned Optical Elements"
 
-    outputs = [{"name":"SynedBeamline",
+    outputs = [{"name":"SynedData",
                 "type":Beamline,
                 "doc":"Syned Beamline",
                 "id":"data"}]
@@ -135,7 +135,7 @@ class OWOpticalElement(OWWidget, WidgetDecorator):
             output_beamline = self.beamline.duplicate()
             output_beamline.append_beamline_element(beamline_element=beamline_element)
 
-            self.send("SynedBeamline", output_beamline)
+            self.send("SynedData", output_beamline)
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e.args[0]), QMessageBox.Ok)
 

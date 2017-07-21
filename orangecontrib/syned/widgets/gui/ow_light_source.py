@@ -25,7 +25,7 @@ class OWLightSource(OWWidget):
     category = "Syned Light Sources"
     keywords = ["data", "file", "load", "read"]
 
-    outputs = [{"name":"SynedBeamline",
+    outputs = [{"name":"SynedData",
                 "type":Beamline,
                 "doc":"Syned Beamline",
                 "id":"data"}]
@@ -193,7 +193,7 @@ class OWLightSource(OWWidget):
                                        electron_beam = electron_beam,
                                        magnetic_structure = self.get_magnetic_structure())
 
-            self.send("SynedBeamline", Beamline(light_source=light_source))
+            self.send("SynedData", Beamline(light_source=light_source))
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e.args[0]), QMessageBox.Ok)
 
