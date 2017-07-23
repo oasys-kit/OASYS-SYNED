@@ -13,7 +13,7 @@ class OWGrating(OWOpticalElementWithSurfaceShape):
     name = "Grating"
     description = "Syned: Grating"
     icon = "icons/grating.png"
-    priority = 6
+    priority = 8
 
     ruling_at_center = Setting(800e3)
 
