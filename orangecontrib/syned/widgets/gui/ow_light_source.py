@@ -183,11 +183,23 @@ class OWLightSource(OWWidget):
                 electron_beam._moment_yy   = self.moment_yy
                 electron_beam._moment_yyp  = self.moment_yyp
                 electron_beam._moment_ypyp = self.moment_ypyp
+
+                x, xp, y, yp = electron_beam.get_sigmas_all()
+
+                self.electron_beam_size_h = x
+                self.electron_beam_size_v = y
+                self.electron_beam_divergence_h = xp
+                self.electron_beam_divergence_v = yp
             else:
                 electron_beam.set_sigmas_all(sigma_x=self.electron_beam_size_h,
                                              sigma_y=self.electron_beam_size_v,
                                              sigma_xp=self.electron_beam_divergence_h,
                                              sigma_yp=self.electron_beam_divergence_v)
+
+                self.moment_xx = electron_beam._moment_xx
+                self.moment_xpxp = electron_beam._moment_xpxp
+                self.moment_yy = electron_beam._moment_yy
+                self.moment_ypyp = electron_beam._moment_ypyp
 
             light_source = LightSource(name=self.source_name,
                                        electron_beam = electron_beam,
