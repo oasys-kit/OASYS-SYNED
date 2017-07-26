@@ -153,10 +153,8 @@ class OWLightSource(OWWidget):
 
         if self.type_of_properties == 0:
             congruence.checkPositiveNumber(self.moment_xx   , "Moment xx")
-            congruence.checkPositiveNumber(self.moment_xxp  , "Moment xxp")
             congruence.checkPositiveNumber(self.moment_xpxp , "Moment xpxp")
             congruence.checkPositiveNumber(self.moment_yy   , "Moment yy")
-            congruence.checkPositiveNumber(self.moment_yyp  , "Moment yyp")
             congruence.checkPositiveNumber(self.moment_ypyp , "Moment ypyp")
         else:
             congruence.checkPositiveNumber(self.electron_beam_size_h       , "Horizontal Beam Size")
