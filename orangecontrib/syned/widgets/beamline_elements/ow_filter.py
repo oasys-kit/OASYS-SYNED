@@ -33,7 +33,8 @@ class OWFilter(OWOpticalElement):
 
 
     def get_optical_element(self):
-        return Filter(material=self.material,
+        return Filter(name=self.oe_name,
+                      material=self.material,
                       thickness=self.thickness)
 
     def check_data(self):

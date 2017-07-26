@@ -13,6 +13,7 @@ class OWSlit(OWOpticalElementWithBoundaryShape):
         super().__init__()
 
     def get_optical_element(self):
-        return Slit(boundary_shape=self.get_boundary_shape())
+        return Slit(name=self.oe_name,
+                    boundary_shape=self.get_boundary_shape())
 
 

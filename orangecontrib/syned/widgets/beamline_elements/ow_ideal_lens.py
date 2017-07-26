@@ -28,7 +28,8 @@ class OWIdealLens(OWOpticalElement):
 
 
     def get_optical_element(self):
-        return IdealLens(focal_x=self.focal_x,
+        return IdealLens(name=self.oe_name,
+                         focal_x=self.focal_x,
                          focal_y=self.focal_y)
 
     def check_data(self):

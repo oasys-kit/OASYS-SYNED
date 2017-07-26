@@ -28,7 +28,7 @@ class OWGrating(OWOpticalElementWithSurfaceShape):
 
         self.ruling_box = oasysgui.widgetBox(self.tab_gra, "Ruling", addSpace=True, orientation="vertical")
 
-        oasysgui.lineEdit(self.ruling_box, self, "ruling_at_center", "Ruling at Center [lines/m]", labelWidth=180, valueType=str, orientation="horizontal")
+        oasysgui.lineEdit(self.ruling_box, self, "ruling_at_center", "Ruling at Center [lines/m]", labelWidth=180, valueType=float, orientation="horizontal")
 
 
     def get_optical_element(self):

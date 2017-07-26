@@ -17,7 +17,7 @@ class OWScreen(OWOpticalElement):
         pass
 
     def get_optical_element(self):
-        return Screen()
+        return Screen(name=self.oe_name)
 
 
 

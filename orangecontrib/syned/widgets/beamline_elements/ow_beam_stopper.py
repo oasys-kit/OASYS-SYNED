@@ -13,4 +13,5 @@ class OWBeamStopper(OWOpticalElementWithBoundaryShape):
         super().__init__()
 
     def get_optical_element(self):
-        return  BeamStopper(boundary_shape=self.get_boundary_shape())
+        return  BeamStopper(name=self.oe_name,
+                            boundary_shape=self.get_boundary_shape())

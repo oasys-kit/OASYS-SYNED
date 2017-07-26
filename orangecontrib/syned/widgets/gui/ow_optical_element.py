@@ -142,7 +142,10 @@ class OWOpticalElement(OWWidget, WidgetDecorator):
             self.setStatusMessage("")
             self.progressBarFinished()
 
-            #raise e
+            raise e
+
+    def get_optical_element(self):
+        raise NotImplementedError()
 
     def receive_syned_data(self, data):
         beamline = data
