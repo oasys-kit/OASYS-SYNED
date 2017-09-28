@@ -1,6 +1,7 @@
 import os
 
-from PyQt4 import QtGui
+from PyQt5.QtWidgets import QMessageBox
+
 from orangewidget import gui, widget
 from orangewidget.settings import Setting
 from oasys.widgets import gui as oasysgui, congruence
@@ -22,14 +23,14 @@ class FileWriter(widget.OWWidget):
     syned_file_name = Setting("")
     is_automatic_run= Setting(1)
 
-    inputs = [("SynedBeamline" , Beamline, "setBeamline" ),]
+    inputs = [("SynedBeamline" , Beamline, "setBeamline" )]
 
     outputs = [{"name":"SynedBeamline",
                 "type":Beamline,
                 "doc":"Syned Beamline",
                 "id":"data"}]
 
-    syned_data = None
+    beamline = None
 
     def __init__(self):
         super().__init__()
@@ -66,44 +67,33 @@ class FileWriter(widget.OWWidget):
     def selectFile(self):
         self.le_syned_file_name.setText(oasysgui.selectFileFromDialog(self, self.syned_file_name, "Open Syned File"))
 
-    def checkEmptyBeam(self, beam):
-        return True
-    def checkGoodBeam(self, beam):
-        return True
+    def setBeamline(self, data):
+        if not data is None:
+            self.beamline = data
 
-    def setBeamline(self, beam):
-        if self.checkEmptyBeam(beam):
-            if self.checkGoodBeam(beam):
-                self.syned_data = beam
-
-                if self.is_automatic_run:
-                    self.write_file()
-            else:
-                QtGui.QMessageBox.critical(self, "Error",
-                                           "No good rays or bad content",
-                                           QtGui.QMessageBox.Ok)
+            if self.is_automatic_run:
+                self.write_file()
 
     def write_file(self):
         self.setStatusMessage("")
 
         try:
-            if self.checkEmptyBeam(self.syned_data):
-                if self.checkGoodBeam(self.syned_data):
-                    if congruence.checkFileName(self.syned_file_name):
-                        self.syned_data.to_json(self.syned_file_name)
+            if not self.beamline is None:
+                congruence.checkFileDir(self.syned_file_name)
+                
+                self.beamline.to_json(self.syned_file_name)
 
-                        path, file_name = os.path.split(self.syned_file_name)
+                path, file_name = os.path.split(self.syned_file_name)
 
-                        self.setStatusMessage("File Out: " + file_name)
+                self.setStatusMessage("File Out: " + file_name)
 
-                        self.send("SynedBeamline", self.syned_data)
-                else:
-                    QtGui.QMessageBox.critical(self, "Error",
-                                               "No good rays or bad content",
-                                               QtGui.QMessageBox.Ok)
+                self.send("SynedBeamline", self.beamline)
+            else:
+                QMessageBox.critical(self, "Error",
+                                     "Syned Data not present",
+                                     QMessageBox.Ok)
         except Exception as exception:
-            QtGui.QMessageBox.critical(self, "Error",
-                                       str(exception), QtGui.QMessageBox.Ok)
+            QMessageBox.critical(self, "Error", str(exception), QMessageBox.Ok)
 
 
 if __name__ == "__main__":

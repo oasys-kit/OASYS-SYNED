@@ -1,3 +1,4 @@
+from PyQt5.QtWidgets import QMessageBox
 
 from orangewidget import gui,widget
 from orangewidget.settings import Setting
@@ -61,28 +62,32 @@ class FileReader(oasyswidget.OWWidget):
 
     def read_file(self):
         self.setStatusMessage("")
-        if self.syned_file_name[:4] == "http":
-            is_remote = True
-        else:
-            is_remote = False
 
         try:
-            if is_remote:
-                tmp = load_from_json_url(self.syned_file_name)
+            congruence.checkEmptyString(self.syned_file_name, "Syned File Name/Url")
+
+            if len(self.syned_file_name) > 7 and self.syned_file_name[:7] == "http://":
+                is_remote = True
             else:
-                tmp = load_from_json_file(self.syned_file_name)
-            print("Reading file %s, returned class: "%self.syned_file_name,type(tmp))
+                congruence.checkFile(self.syned_file_name)
+                is_remote = False
 
-            if  isinstance(tmp,LightSource):
-                bl = Beamline(tmp)
-            else:
-                raise Exception("json file must contain a SYNED LightSource")
+            try:
+                if is_remote:
+                    content = load_from_json_url(self.syned_file_name)
+                else:
+                    content = load_from_json_file(self.syned_file_name)
 
-        except:
-            raise Exception("Error reading SYNED LightSource from file")
+                self.setStatusMessage("Reading file %s, returned class: "%self.syned_file_name,type(content))
 
-        self.send("SynedBeamline", bl)
-
+                if isinstance(content, LightSource):
+                    self.send("SynedBeamline", Beamline(content))
+                else:
+                    raise Exception("json file must contain a SYNED LightSource")
+            except Exception as e:
+                raise Exception("Error reading SYNED LightSource from file: " + str(e))
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e.args[0]), QMessageBox.Ok)
 
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

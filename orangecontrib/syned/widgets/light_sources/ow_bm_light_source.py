@@ -1,8 +1,5 @@
 import sys
 
-from PyQt5.QtWidgets import QMessageBox, QApplication
-from PyQt5.QtGui import QPalette, QColor, QFont
-
 from orangewidget.settings import Setting
 from oasys.widgets import gui as oasysgui
 from oasys.widgets import congruence
@@ -48,6 +45,17 @@ class OWBMLightSource(ow_light_source.OWLightSource):
     def calculateMagneticRadius(self):
         if self.magnetic_field > 0:
            self.radius=BendingMagnet.calculate_magnetic_radius(self.magnetic_field, self.electron_energy_in_GeV)
+
+    def check_magnetic_structure_instance(self, magnetic_structure):
+        if not isinstance(magnetic_structure, BendingMagnet):
+            raise ValueError("Magnetic Structure is not a Bending Magnet")
+
+    def populate_magnetic_structure(self, magnetic_structure):
+        self.radius = magnetic_structure._radius
+        self.magnetic_field = magnetic_structure._magnetic_field
+        self.length = magnetic_structure._length
+
+from PyQt5.QtWidgets import QApplication
 
 if __name__ == "__main__":
     a = QApplication(sys.argv)
