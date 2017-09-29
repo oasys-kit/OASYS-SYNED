@@ -267,6 +267,8 @@ class OWLightSource(OWWidget):
 
                 if isinstance(content, LightSource):
                     self.populate_fields(content)
+                elif isinstance(content, Beamline) and not content._light_source is None:
+                    self.populate_fields(content._light_source)
                 else:
                     raise Exception("json file must contain a SYNED LightSource")
             except Exception as e:
