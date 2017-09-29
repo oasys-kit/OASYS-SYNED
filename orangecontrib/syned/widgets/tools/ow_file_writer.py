@@ -79,7 +79,7 @@ class FileWriter(widget.OWWidget):
 
         try:
             if not self.beamline is None:
-                congruence.checkFileDir(self.syned_file_name)
+                congruence.checkDir(self.syned_file_name)
                 
                 self.beamline.to_json(self.syned_file_name)
 
