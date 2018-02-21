@@ -78,7 +78,7 @@ class FileReader(oasyswidget.OWWidget):
                 else:
                     content = load_from_json_file(self.syned_file_name)
 
-                self.setStatusMessage("Reading file %s, returned class: "%self.syned_file_name,type(content))
+                self.setStatusMessage("Read %s"%(self.syned_file_name))
 
                 if isinstance(content, LightSource):
                     self.send("SynedBeamline", Beamline(content))
