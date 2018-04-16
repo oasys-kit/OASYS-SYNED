@@ -17,4 +17,4 @@ BACKGROUND = "#dec0a0"
 
 ICON = "icons/beamline_elements.png"
 
-PRIORITY = 3
+PRIORITY = 6
