@@ -9,7 +9,7 @@ Widgets for association rules.
 
 # Category description for the widget registry
 
-NAME = "Syned Beamline Elements"
+NAME = "Syned Optical Elements"
 
 DESCRIPTION = "Widgets for Syned"
 
