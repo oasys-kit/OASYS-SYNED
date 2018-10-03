@@ -217,15 +217,15 @@ class OWOpticalElementWithBoundaryShape(OWOpticalElement):
                                        y_top=0.5*self.height + self.vertical_shift)
 
         elif self.shape == 1:
-            boundary_shape = Ellipse(min_ax_left=-0.5*self.radius + self.horizontal_shift,
-                                     min_ax_right=0.5*self.radius + self.horizontal_shift,
-                                     maj_ax_bottom=-0.5*self.radius + self.vertical_shift,
-                                     maj_ax_top=0.5*self.radius + self.vertical_shift)
+            boundary_shape = Ellipse(a_axis_min=-0.5*self.radius + self.horizontal_shift,
+                                     a_axis_max=0.5*self.radius + self.horizontal_shift,
+                                     b_axis_min=-0.5*self.radius + self.vertical_shift,
+                                     b_axis_max=0.5*self.radius + self.vertical_shift)
         elif self.shape == 2:
-            boundary_shape = Ellipse(min_ax_left=-0.5*self.min_ax + self.horizontal_shift,
-                                     min_ax_right=0.5*self.min_ax + self.horizontal_shift,
-                                     maj_ax_bottom=-0.5*self.maj_ax + self.vertical_shift,
-                                     maj_ax_top=0.5*self.maj_ax + self.vertical_shift)
+            boundary_shape = Ellipse(a_axis_min=-0.5*self.min_ax + self.horizontal_shift,
+                                     a_axis_max=0.5*self.min_ax + self.horizontal_shift,
+                                     b_axis_min=-0.5*self.maj_ax + self.vertical_shift,
+                                     b_axis_max=0.5*self.maj_ax + self.vertical_shift)
         
         return boundary_shape
     
