@@ -15,7 +15,7 @@ class FileReader(oasyswidget.OWWidget):
     icon = "icons/file_reader.png"
     maintainer = "Manuel Sanchez del Rio"
     maintainer_email = "srio(@at@)esrf.eu"
-    priority = 2
+    priority = 1
     category = "Utility"
     keywords = ["data", "file", "load", "read"]
 

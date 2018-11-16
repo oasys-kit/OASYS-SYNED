@@ -14,7 +14,7 @@ class FileWriter(widget.OWWidget):
     icon = "icons/file_writer.png"
     maintainer = "Manuel Sanchez del Rio"
     maintainer_email = "srio(@at@)esrf.eu"
-    priority = 4
+    priority = 2
     category = "Utility"
     keywords = ["data", "file", "load", "read"]
 
