@@ -8,7 +8,7 @@ except AttributeError:
     from setuptools import find_packages, setup
 
 NAME = 'OASYS1-SYNED'
-VERSION = '1.0.3'
+VERSION = '1.0.4'
 ISRELEASED = False
 
 DESCRIPTION = 'SYNED SYNchrotron Elements Dictionary'
@@ -39,7 +39,7 @@ SETUP_REQUIRES = (
 )
 
 INSTALL_REQUIRES = (
-    'oasys1>1.1.16',
+    'oasys1>=1.1.17',
     'syned>=1.0.10',
 )
 
@@ -48,7 +48,7 @@ PACKAGES = find_packages(exclude=('*.tests', '*.tests.*', 'tests.*', 'tests'))
 PACKAGE_DATA = {
     "orangecontrib.syned.widgets.sources":["icons/*.png", "icons/*.jpg"],
     "orangecontrib.syned.widgets.beamline_elements":["icons/*.png", "icons/*.jpg"],
-    "orangecontrib.syned.widgets.tools":["icons/*.png", "icons/*.jpg"],
+    "orangecontrib.syned.widgets.tools":["icons/*.png", "icons/*.jpg", "misc/*.png"],
 }
 
 NAMESPACE_PACAKGES = ["orangecontrib", "orangecontrib.syned", "orangecontrib.syned.widgets"]
