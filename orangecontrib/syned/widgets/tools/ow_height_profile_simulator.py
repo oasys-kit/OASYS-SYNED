@@ -6,7 +6,7 @@ import orangecanvas.resources as resources
 
 from oasys.widgets.error_profile.ow_abstract_height_profile_simulator import OWAbstractHeightErrorProfileSimulator
 
-from oasys.util.oasys_objects import OasysPreProcessorData, OasysErrorProfileData
+from oasys.util.oasys_objects import OasysPreProcessorData, OasysErrorProfileData, OasysSurfaceData
 import oasys.util.oasys_util as OU
 
 class OWHeightProfileSimulator(OWAbstractHeightErrorProfileSimulator):
@@ -37,13 +37,13 @@ class OWHeightProfileSimulator(OWAbstractHeightErrorProfileSimulator):
         if not (self.heigth_profile_file_name.endswith("hd5") or self.heigth_profile_file_name.endswith("hdf5") or self.heigth_profile_file_name.endswith("hdf")):
             self.heigth_profile_file_name += ".hdf5"
 
-        OU.write_error_profile_file(self.zz, self.xx, self.yy, self.heigth_profile_file_name)
+        OU.write_surface_file(self.zz, self.xx, self.yy, self.heigth_profile_file_name)
 
     def send_data(self, dimension_x, dimension_y):
-        self.send("PreProcessor_Data", OasysPreProcessorData(error_profile_data=OasysErrorProfileData(xx=self.xx,
-                                                                                                      yy=self.yy,
-                                                                                                      zz=self.zz,
-                                                                                                      error_profile_data_file=self.heigth_profile_file_name,
+        self.send("PreProcessor_Data", OasysPreProcessorData(error_profile_data=OasysErrorProfileData(surface_data=OasysSurfaceData(xx=self.xx,
+                                                                                                                                    yy=self.yy,
+                                                                                                                                    zz=self.zz,
+                                                                                                                                    surface_data_file=self.heigth_profile_file_name),
                                                                                                       error_profile_x_dim=dimension_x,
                                                                                                       error_profile_y_dim=dimension_y)))
 
