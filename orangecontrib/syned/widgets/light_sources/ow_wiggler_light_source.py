@@ -20,6 +20,10 @@ class OWWigglerLightSource(ow_insertion_device.OWInsertionDevice):
                        period_length=self.period_length,
                        number_of_periods=self.number_of_periods)
 
+    def check_magnetic_structure_instance(self, magnetic_structure):
+        if not isinstance(magnetic_structure, Wiggler):
+            raise ValueError("Magnetic Structure is not a Wiggler")
+
     def populate_magnetic_structure(self, magnetic_structure):
         if not isinstance(magnetic_structure, Wiggler):
             raise ValueError("Magnetic Structure is not a Wiggler")
