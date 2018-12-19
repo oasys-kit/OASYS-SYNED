@@ -14,10 +14,10 @@ from orangecontrib.syned.widgets.gui import ow_light_source
 
 class OWInsertionDevice(ow_light_source.OWLightSource):
 
-    K_horizontal       = Setting(0.0)
-    K_vertical         = Setting(0.0)
-    period_length      = Setting(0.0)
-    number_of_periods  = Setting(0.0)
+    K_horizontal       = Setting(1.0)
+    K_vertical         = Setting(1.0)
+    period_length      = Setting(0.010)
+    number_of_periods  = Setting(10)
 
     def __init__(self):
         super().__init__()
