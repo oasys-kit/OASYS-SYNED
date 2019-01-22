@@ -308,6 +308,8 @@ class OWLightSource(OWWidget):
 
         self.populate_magnetic_structure(magnetic_structure)
 
+        self.set_TypeOfProperties()
+
     def check_magnetic_structure_instance(self, magnetic_structure):
         raise NotImplementedError()
 
