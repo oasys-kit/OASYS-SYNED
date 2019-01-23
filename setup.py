@@ -8,7 +8,7 @@ except AttributeError:
     from setuptools import find_packages, setup
 
 NAME = 'OASYS1-SYNED'
-VERSION = '1.0.9'
+VERSION = '1.0.10'
 ISRELEASED = False
 
 DESCRIPTION = 'SYNED SYNchrotron Elements Dictionary'
@@ -39,7 +39,7 @@ SETUP_REQUIRES = (
 )
 
 INSTALL_REQUIRES = (
-    'oasys1>=1.1.30',
+    'oasys1>=1.1.32',
 )
 
 PACKAGES = find_packages(exclude=('*.tests', '*.tests.*', 'tests.*', 'tests'))
