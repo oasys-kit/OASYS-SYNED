@@ -34,7 +34,7 @@ class OWHeightProfileSimulator(OWAbstractHeightErrorProfileSimulator):
         return self.usage_path
 
     def write_error_profile_file(self):
-        if not (self.heigth_profile_file_name.endswith("hd5") or self.heigth_profile_file_name.endswith("hdf5") or self.heigth_profile_file_name.endswith("hdf")):
+        if not (self.heigth_profile_file_name.endswith("h5") or self.heigth_profile_file_name.endswith("hdf5") or self.heigth_profile_file_name.endswith("hdf")):
             self.heigth_profile_file_name += ".hdf5"
 
         OU.write_surface_file(self.zz, self.xx, self.yy, self.heigth_profile_file_name)
@@ -50,6 +50,7 @@ class OWHeightProfileSimulator(OWAbstractHeightErrorProfileSimulator):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     w = OWHeightProfileSimulator()
+    w.si_to_user_units = 1.0
     w.show()
     app.exec()
     w.saveSettings()
