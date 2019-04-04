@@ -8,16 +8,16 @@ except AttributeError:
     from setuptools import find_packages, setup
 
 NAME = 'OASYS1-SYNED'
-VERSION = '1.0.11'
+VERSION = '1.0.12'
 ISRELEASED = False
 
 DESCRIPTION = 'SYNED SYNchrotron Elements Dictionary'
 README_FILE = os.path.join(os.path.dirname(__file__), 'README.txt')
 LONG_DESCRIPTION = open(README_FILE).read()
 AUTHOR = 'Manuel Sanchez del Rio, Luca Rebuffi'
-AUTHOR_EMAIL = 'luca.rebuffi@elettra.eu'
-URL = 'https://github.com/lucarebuffi/OASYS-SYNED'
-DOWNLOAD_URL = 'https://github.com/lucarebuffi/OASYS-SYNED'
+AUTHOR_EMAIL = 'lrebuffi@anl.gov'
+URL = 'https://github.com/oasys-kit/OASYS-SYNED'
+DOWNLOAD_URL = 'https://github.com/oasys-kit/OASYS-SYNED'
 LICENSE = 'GPLv3'
 
 KEYWORDS = (
