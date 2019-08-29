@@ -15,7 +15,7 @@ class OWdabam_height_profile(OWAbstractDabamHeightProfile):
     icon = "icons/dabam.png"
     author = "Luca Rebuffi"
     maintainer_email = "srio@esrf.eu; lrebuffi@anl.gov"
-    priority = 4
+    priority = 5
     category = ""
     keywords = ["dabam_height_profile"]
 
@@ -50,7 +50,9 @@ class OWdabam_height_profile(OWAbstractDabamHeightProfile):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     w = OWdabam_height_profile()
+    w.workspace_units_label = "m"
     w.si_to_user_units = 100
+
     w.show()
     app.exec()
     w.saveSettings()

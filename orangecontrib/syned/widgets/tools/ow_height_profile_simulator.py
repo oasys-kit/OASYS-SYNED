@@ -16,7 +16,7 @@ class OWHeightProfileSimulator(OWAbstractHeightErrorProfileSimulator):
     icon = "icons/simulator.png"
     author = "Luca Rebuffi"
     maintainer_email = "srio@esrf.eu; luca.rebuffi@elettra.eu"
-    priority = 3
+    priority = 4
     category = ""
     keywords = ["height_profile_simulator"]
 
