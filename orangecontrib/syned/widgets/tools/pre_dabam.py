@@ -451,20 +451,11 @@ class OWpre_dabam(OWWidget):
 
 
         if self.detrending_option == 0:
-            detrending_flag = 0
+            detrending_flag = -1
         elif self.detrending_option == 1:
             detrending_flag = 1
         else:
-            detrending_flag = -2
-
-        # print(type(txt))
-        #
-        #
-        # for ii in range(5):
-        #     print(">>>>",txt[ii])
-
-        # a = numpy.loadtxt(txt, skiprows=1)
-        # print(a.shape)
+            detrending_flag = -3
 
 
         dm = dabam.initialize_from_external_data(txt,
