@@ -103,11 +103,11 @@ class OWLightSource(OWWidget):
 
         self.controlArea.setFixedWidth(self.CONTROL_AREA_WIDTH)
 
-        tabs_setting = oasysgui.tabWidget(self.controlArea)
-        tabs_setting.setFixedHeight(self.TABS_AREA_HEIGHT)
-        tabs_setting.setFixedWidth(self.CONTROL_AREA_WIDTH-5)
+        self.tabs_setting = oasysgui.tabWidget(self.controlArea)
+        self.tabs_setting.setFixedHeight(self.TABS_AREA_HEIGHT)
+        self.tabs_setting.setFixedWidth(self.CONTROL_AREA_WIDTH-5)
 
-        self.tab_sou = oasysgui.createTabPage(tabs_setting, "Light Source Setting")
+        self.tab_sou = oasysgui.createTabPage(self.tabs_setting, "Light Source Setting")
 
         box_json =  oasysgui.widgetBox(self.tab_sou, "Read/Write File", addSpace=False, orientation="vertical")
 
