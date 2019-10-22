@@ -75,7 +75,7 @@ class OWGrating(OWOpticalElementWithSurfaceShape):
                      callback=self.set_visibility,
                      sendSelectedValue=False, orientation="horizontal")
 
-        self.coating_subbox = oasysgui.widgetBox(self.tab_gra, "", addSpace=True, orientation="vertical")
+        self.coating_subbox = oasysgui.widgetBox(self.coating_box, "", addSpace=True, orientation="vertical")
         oasysgui.lineEdit(self.coating_subbox, self, "coating_material", "Material [Chemical Formula]", labelWidth=260, valueType=str, orientation="horizontal")
         oasysgui.lineEdit(self.coating_subbox, self, "coating_thickness", "Thickness [m]", labelWidth=260, valueType=float, orientation="horizontal")
 
