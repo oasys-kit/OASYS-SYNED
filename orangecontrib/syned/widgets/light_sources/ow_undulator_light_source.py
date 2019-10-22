@@ -76,8 +76,18 @@ class OWUndulatorLightSource(ow_insertion_device.OWInsertionDevice):
         wavelength = self.auto_harmonic_number*m2ev/self.auto_energy
         K = round(numpy.sqrt(2*(((wavelength*2*self.gamma()**2)/self.period_length)-1)), 6)
 
-        if which == VERTICAL   or which==BOTH: self.K_vertical = K
-        if which == HORIZONTAL or which==BOTH: self.K_horizontal = K
+        if which == VERTICAL:
+            self.K_vertical = K
+            self.K_horizontal = 0.0
+
+        if which == BOTH:
+            Kboth = round(K / numpy.sqrt(2), 6)
+            self.K_vertical =  Kboth
+            self.K_horizontal = Kboth
+
+        if which == HORIZONTAL:
+            self.K_horizontal = K
+            self.K_vertical = 0.0
 
     def gamma(self):
         return 1e9*self.electron_energy_in_GeV / (codata.m_e *  codata.c**2 / codata.e)
