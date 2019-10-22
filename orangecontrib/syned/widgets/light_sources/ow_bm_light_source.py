@@ -29,8 +29,8 @@ class OWBMLightSource(ow_light_source.OWLightSource):
         oasysgui.lineEdit(left_box_1, self, "length", "Length [m]", labelWidth=260, valueType=float, orientation="horizontal")
 
     def check_magnetic_structure(self):
-        congruence.checkStrictlyPositiveNumber(self.radius , "Radius")
-        congruence.checkStrictlyPositiveNumber(self.magnetic_field, "Magnetic Field")
+        congruence.checkNumber(self.radius , "Radius")
+        congruence.checkNumber(self.magnetic_field, "Magnetic Field")
         congruence.checkStrictlyPositiveNumber(self.length, "Length")
 
     def get_magnetic_structure(self):

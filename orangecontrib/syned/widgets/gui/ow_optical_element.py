@@ -190,8 +190,8 @@ class OWOpticalElementWithBoundaryShape(OWOpticalElement):
 
         self.rectangle_box = oasysgui.widgetBox(self.shape_box, "", addSpace=False, orientation="vertical", height=60)
 
-        oasysgui.lineEdit(self.rectangle_box, self, "width", "Width [m]", labelWidth=260, valueType=float, orientation="horizontal")
-        oasysgui.lineEdit(self.rectangle_box, self, "height", "Height [m]", labelWidth=260, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(self.rectangle_box, self, "width", "Width/Sagittal [m]", labelWidth=260, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(self.rectangle_box, self, "height", "Height/Tangential [m]", labelWidth=260, valueType=float, orientation="horizontal")
 
         self.circle_box = oasysgui.widgetBox(self.shape_box, "", addSpace=False, orientation="vertical", height=60)
 

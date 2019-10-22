@@ -80,7 +80,9 @@ class FileReader(oasyswidget.OWWidget):
 
                 self.setStatusMessage("Read %s"%(self.syned_file_name))
 
-                if isinstance(content, LightSource):
+                if isinstance(content, Beamline):
+                    self.send("SynedBeamline", content)
+                elif isinstance(content, LightSource):
                     self.send("SynedBeamline", Beamline(content))
                 else:
                     raise Exception("json file must contain a SYNED LightSource")
@@ -95,7 +97,9 @@ if __name__ == "__main__":
 
     a = QApplication(sys.argv)
     ow = FileReader()
-    ow.syned_file_name = "http://ftp.esrf.eu/pub/scisoft/syned/lightsources/ESRF_ID1_EBS_ppu27_9.json"
+    # ow.syned_file_name = "http://ftp.esrf.eu/pub/scisoft/syned/lightsources/ESRF_ID02_EBS_PPU21.4_2.json"
+
+    ow.syned_file_name = "/home/manuel/Oasys/bl.json"
     ow.show()
     a.exec_()
 
