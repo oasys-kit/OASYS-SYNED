@@ -18,11 +18,7 @@ from oasys.widgets import gui as oasysgui
 
 from srxraylib.metrology.dabam import dabam, autocorrelationfunction
 
-
-from orangecontrib.shadow.util.shadow_objects import ShadowPreProcessorData
-
 from copy import copy
-import re
 from urllib.request import urlopen
 
 class OWpre_dabam(OWWidget):
