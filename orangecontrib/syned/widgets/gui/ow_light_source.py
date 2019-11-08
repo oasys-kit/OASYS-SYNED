@@ -148,7 +148,7 @@ class OWLightSource(OWWidget):
         oasysgui.lineEdit(self.electron_beam_box, self, "ring_current", "Ring Current [A]", labelWidth=260, valueType=float, orientation="horizontal")
 
         gui.comboBox(self.electron_beam_box, self, "type_of_properties", label="Electron Beam Properties", labelWidth=350,
-                     items=["From 2nd Moments", "From Size/Divergence", "From Twiss papameters"],
+                     items=["From 2nd Moments", "From Size/Divergence", "From Twiss papameters","Zero emittance"],
                      callback=self.set_TypeOfProperties,
                      sendSelectedValue=False, orientation="horizontal")
 
@@ -194,6 +194,8 @@ class OWLightSource(OWWidget):
         self.left_box_2_1.setVisible(self.type_of_properties == 0)
         self.left_box_2_2.setVisible(self.type_of_properties == 1)
         self.left_box_2_3.setVisible(self.type_of_properties == 2)
+
+
 
 
     def check_data(self):
@@ -248,52 +250,11 @@ class OWLightSource(OWWidget):
             electron_beam.set_moments_horizontal(self.moment_xx,self.moment_xxp,self.moment_xpxp)
             electron_beam.set_moments_vertical(self.moment_yy, self.moment_yyp, self.moment_ypyp)
 
-            # x, xp, y, yp = electron_beam.get_sigmas_all()
-            #
-            # self.electron_beam_size_h = x
-            # self.electron_beam_size_v = y
-            # self.electron_beam_divergence_h = xp
-            # self.electron_beam_divergence_v = yp
-
-            # twiss_all = electron_beam.get_twiss_no_dispersion_all()
-            # self.electron_beam_emittance_h = twiss_all[0]
-            # self.electron_beam_alpha_h     = twiss_all[1]
-            # self.electron_beam_beta_h      = twiss_all[2]
-            # self.electron_beam_eta_h       = 0.0
-            # self.electron_beam_etap_h      = 0.0
-            # self.electron_beam_emittance_v = twiss_all[3]
-            # self.electron_beam_alpha_v     = twiss_all[4]
-            # self.electron_beam_beta_v      = twiss_all[5]
-            # self.electron_beam_eta_v       = 0.0
-            # self.electron_beam_etap_v      = 0.0
-
-
         elif self.type_of_properties == 1:
             electron_beam.set_sigmas_all(sigma_x=self.electron_beam_size_h,
                                          sigma_y=self.electron_beam_size_v,
                                          sigma_xp=self.electron_beam_divergence_h,
                                          sigma_yp=self.electron_beam_divergence_v)
-
-            # moments_all = electron_beam.get_moments_all()
-            #
-            # self.moment_xx   = moments_all[0]
-            # self.moment_xxp  = moments_all[1]
-            # self.moment_xpxp = moments_all[2]
-            # self.moment_yy   = moments_all[3]
-            # self.moment_yy   = moments_all[4]
-            # self.moment_ypyp = moments_all[5]
-            #
-            # twiss_all = electron_beam.get_twiss_no_dispersion_all()
-            # self.electron_beam_emittance_h = twiss_all[0]
-            # self.electron_beam_alpha_h     = twiss_all[1]
-            # self.electron_beam_beta_h      = twiss_all[2]
-            # self.electron_beam_eta_h       = 0.0
-            # self.electron_beam_etap_h      = 0.0
-            # self.electron_beam_emittance_v = twiss_all[3]
-            # self.electron_beam_alpha_v     = twiss_all[4]
-            # self.electron_beam_beta_v      = twiss_all[5]
-            # self.electron_beam_eta_v       = 0.0
-            # self.electron_beam_etap_v      = 0.0
 
         elif self.type_of_properties == 2:
             electron_beam.set_twiss_horizontal(self.electron_beam_emittance_h,
@@ -307,21 +268,8 @@ class OWLightSource(OWWidget):
                                              self.electron_beam_eta_v,
                                              self.electron_beam_etap_v)
 
-            # x, xp, y, yp = electron_beam.get_sigmas_all()
-            #
-            # self.electron_beam_size_h = x
-            # self.electron_beam_size_v = y
-            # self.electron_beam_divergence_h = xp
-            # self.electron_beam_divergence_v = yp
-            #
-            # moments_all = electron_beam.get_moments_all()
-            #
-            # self.moment_xx   = moments_all[0]
-            # self.moment_xxp  = moments_all[1]
-            # self.moment_xpxp = moments_all[2]
-            # self.moment_yy   = moments_all[3]
-            # self.moment_yy   = moments_all[4]
-            # self.moment_ypyp = moments_all[5]
+        elif self.type_of_properties == 3:
+            electron_beam.set_moments_all(0,0,0,0,0,0)
 
         return LightSource(name=self.source_name,
                            electron_beam = electron_beam,
