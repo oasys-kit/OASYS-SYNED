@@ -32,15 +32,13 @@ class OWUndulatorLightSource(ow_insertion_device.OWInsertionDevice):
 
         tab_util = oasysgui.createTabPage(self.tabs_setting, "Utility")
 
-        left_box_0 = oasysgui.widgetBox(tab_util, "Undulator calculated parameters", addSpace=False, orientation="vertical")
+        left_box_0 = oasysgui.widgetBox(tab_util, "Undulator calculated parameters", addSpace=False, orientation="vertical", height=450)
         gui.button(left_box_0, self, "Update info", callback=self.update_info)
-        self.info_id = QTextEdit()
-        self.info_id.readOnly = True
+
+        self.info_id = oasysgui.textArea(height=380, width=415, readOnly=True)
         left_box_0.layout().addWidget(self.info_id)
 
-
-
-        left_box_1 = oasysgui.widgetBox(tab_util, "Auto Setting of Undulator", addSpace=False, orientation="vertical")
+        left_box_1 = oasysgui.widgetBox(tab_util, "Auto Setting of Undulator", addSpace=False, orientation="vertical", height=120)
 
         oasysgui.lineEdit(left_box_1, self, "auto_energy", "Set Undulator at Energy [eV]",
                           labelWidth=250, valueType=float, orientation="horizontal")
@@ -59,6 +57,8 @@ class OWUndulatorLightSource(ow_insertion_device.OWInsertionDevice):
         syned_electron_beam = syned_light_source.get_electron_beam()
         syned_undulator = syned_light_source.get_magnetic_structure()
 
+        gamma = self.gamma()
+
         info_parameters = {
             "electron_energy_in_GeV":self.electron_energy_in_GeV,
             "gamma":"%8.3f"%self.gamma(),
@@ -68,29 +68,29 @@ class OWUndulatorLightSource(ow_insertion_device.OWInsertionDevice):
             "period_length": syned_undulator.period_length(),
             "number_of_periods": syned_undulator.number_of_periods(),
             "undulator_length": syned_undulator.length(),
-            "resonance_energy":"%6.3f"%syned_undulator.resonance_energy(self.gamma(),harmonic=1),
-            "resonance_energy3": "%6.3f" % syned_undulator.resonance_energy(self.gamma(),harmonic=3),
-            "resonance_energy5": "%6.3f" % syned_undulator.resonance_energy(self.gamma(),harmonic=5),
+            "resonance_energy":"%6.3f"%syned_undulator.resonance_energy(gamma,harmonic=1),
+            "resonance_energy3": "%6.3f" % syned_undulator.resonance_energy(gamma,harmonic=3),
+            "resonance_energy5": "%6.3f" % syned_undulator.resonance_energy(gamma,harmonic=5),
             "B_horizontal":"%4.2F"%syned_undulator.magnetic_field_horizontal(),
             "B_vertical": "%4.2F" % syned_undulator.magnetic_field_vertical(),
-            "cc_1": "%4.2f" % (1e6*syned_undulator.gaussian_central_cone_aperture(self.gamma(),1)),
-            "cc_3": "%4.2f" % (1e6*syned_undulator.gaussian_central_cone_aperture(self.gamma(),3)),
-            "cc_5": "%4.2f" % (1e6*syned_undulator.gaussian_central_cone_aperture(self.gamma(),5)),
+            "cc_1": "%4.2f" % (1e6*syned_undulator.gaussian_central_cone_aperture(gamma,1)),
+            "cc_3": "%4.2f" % (1e6*syned_undulator.gaussian_central_cone_aperture(gamma,3)),
+            "cc_5": "%4.2f" % (1e6*syned_undulator.gaussian_central_cone_aperture(gamma,5)),
             # "cc_7": "%4.2f" % (self.gaussian_central_cone_aperture(7)*1e6),
-            "sigma_rad": "%5.2f"        % (1e6*syned_undulator.get_sigmas_radiation(self.gamma(),harmonic=1)[0]),
-            "sigma_rad_prime": "%5.2f"  % (1e6*syned_undulator.get_sigmas_radiation(self.gamma(),harmonic=1)[1]),
-            "sigma_rad3": "%5.2f"       % (1e6*syned_undulator.get_sigmas_radiation(self.gamma(),harmonic=3)[0]),
-            "sigma_rad_prime3": "%5.2f" % (1e6*syned_undulator.get_sigmas_radiation(self.gamma(),harmonic=3)[1]),
-            "sigma_rad5": "%5.2f" % (1e6 * syned_undulator.get_sigmas_radiation(self.gamma(), harmonic=5)[0]),
-            "sigma_rad_prime5": "%5.2f" % (1e6 * syned_undulator.get_sigmas_radiation(self.gamma(), harmonic=5)[1]),
-            "first_ring_1": "%5.2f" % (1e6*syned_undulator.get_resonance_ring(self.gamma(), harmonic=1, ring_order=1)),
-            "first_ring_3": "%5.2f" % (1e6*syned_undulator.get_resonance_ring(self.gamma(), harmonic=3, ring_order=1)),
-            "first_ring_5": "%5.2f" % (1e6*syned_undulator.get_resonance_ring(self.gamma(), harmonic=5, ring_order=1)),
+            "sigma_rad": "%5.2f"        % (1e6*syned_undulator.get_sigmas_radiation(gamma,harmonic=1)[0]),
+            "sigma_rad_prime": "%5.2f"  % (1e6*syned_undulator.get_sigmas_radiation(gamma,harmonic=1)[1]),
+            "sigma_rad3": "%5.2f"       % (1e6*syned_undulator.get_sigmas_radiation(gamma,harmonic=3)[0]),
+            "sigma_rad_prime3": "%5.2f" % (1e6*syned_undulator.get_sigmas_radiation(gamma,harmonic=3)[1]),
+            "sigma_rad5": "%5.2f" % (1e6 * syned_undulator.get_sigmas_radiation(gamma, harmonic=5)[0]),
+            "sigma_rad_prime5": "%5.2f" % (1e6 * syned_undulator.get_sigmas_radiation(gamma, harmonic=5)[1]),
+            "first_ring_1": "%5.2f" % (1e6*syned_undulator.get_resonance_ring(gamma, harmonic=1, ring_order=1)),
+            "first_ring_3": "%5.2f" % (1e6*syned_undulator.get_resonance_ring(gamma, harmonic=3, ring_order=1)),
+            "first_ring_5": "%5.2f" % (1e6*syned_undulator.get_resonance_ring(gamma, harmonic=5, ring_order=1)),
             "Sx": "%5.2f"  % (1e6*syned_undulator.get_photon_sizes_and_divergences(syned_electron_beam)[0]),
             "Sy": "%5.2f"  % (1e6*syned_undulator.get_photon_sizes_and_divergences(syned_electron_beam)[1]),
             "Sxp": "%5.2f" % (1e6*syned_undulator.get_photon_sizes_and_divergences(syned_electron_beam)[2]),
             "Syp": "%5.2f" % (1e6*syned_undulator.get_photon_sizes_and_divergences(syned_electron_beam)[3]),
-            "und_power": "%5.2f" % syned_undulator.undulator_full_emitted_power(self.gamma(),syned_electron_beam.current()),
+            "und_power": "%5.2f" % syned_undulator.undulator_full_emitted_power(gamma,syned_electron_beam.current()),
             "CF_h": "%4.3f" % syned_undulator.approximated_coherent_fraction_horizontal(syned_electron_beam,harmonic=1),
             "CF_v": "%4.3f" % syned_undulator.approximated_coherent_fraction_vertical(syned_electron_beam,harmonic=1),
             "CF": "%4.3f" % syned_undulator.approximated_coherent_fraction(syned_electron_beam,harmonic=1),

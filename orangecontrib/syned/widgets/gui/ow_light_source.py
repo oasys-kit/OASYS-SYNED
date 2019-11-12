@@ -69,9 +69,9 @@ class OWLightSource(OWWidget):
     want_main_area=0
 
     MAX_WIDTH = 460
-    MAX_HEIGHT = 750
+    MAX_HEIGHT = 700
 
-    TABS_AREA_HEIGHT = 675
+    TABS_AREA_HEIGHT = 625
     CONTROL_AREA_WIDTH = 450
 
     def __init__(self):
