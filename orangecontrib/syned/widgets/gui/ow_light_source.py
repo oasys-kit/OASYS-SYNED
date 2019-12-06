@@ -296,7 +296,8 @@ class OWLightSource(OWWidget):
             congruence.checkEmptyString(self.syned_file_name, "Syned File Name/Url")
 
             if (len(self.syned_file_name) > 7 and self.syned_file_name[:7] == "http://") or \
-                    (len(self.syned_file_name) > 8 and self.syned_file_name[:8] == "https://"):
+                (len(self.syned_file_name) > 8 and self.syned_file_name[:8] == "https://"):
+                congruence.checkUrl(self.syned_file_name)
                 is_remote = True
             else:
                 congruence.checkFile(self.syned_file_name)
