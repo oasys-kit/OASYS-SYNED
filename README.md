@@ -1,2 +1,2 @@
 # OASYS-SYNED
-Widgets for SYNchrotron Elements Dictionary
+Widgets for SYNED (SYNchrotron Elements Dictionary) library
