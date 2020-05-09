@@ -37,6 +37,7 @@ class OWpre_dabam(OWWidget):
          "doc": "DABAM 1D Profile",
          "id": "DABAM 1D Profile"}]
 
+    inputs=[("DABAM 1D Profile", numpy.ndarray, "receive_dabam_profile")]
 
     want_main_area = 1
     want_control_area = 1
@@ -324,6 +325,27 @@ class OWpre_dabam(OWWidget):
         self.USER_ADDED_BY = ""
 
 
+    def receive_dabam_profile(self, dabam_profile):
+        if not dabam_profile is None:
+            try:
+                txt = ""
+                for i in range(dabam_profile.shape[0]):
+                    txt += "%g    %g\n" % (dabam_profile[i,0], dabam_profile[i,1])
+                self.raw_textarea.setText(txt)
+                self.column_index_abscissas = 0
+                self.column_index_ordinates = 1
+                self.skiprows = 0
+                self.useHeightsOrSlopes = 0
+                self.to_SI_abscissas = 1.0
+                self.to_SI_ordinates = 1.0
+                self.detrending_option = 0
+
+                self.calculate()
+
+            except Exception as exception:
+                QMessageBox.critical(self, "Error", exception.args[0], QMessageBox.Ok)
+
+                if self.IS_DEVELOP: raise exception
 
     def export(self):
         self.calculate()
@@ -594,13 +616,13 @@ class OWpre_dabam(OWWidget):
         self.plot_canvas[4].setGraphTitle("Autocovariance Function of Heights Profile")
         self.plot_canvas[4].setInteractiveMode(mode='zoom')
 
-        self.figure = Figure(figsize=(self.IMAGE_HEIGHT, self.IMAGE_HEIGHT)) # QUADRATA!
-        self.figure.patch.set_facecolor('white')
-
-        self.axis = self.figure.add_subplot(111, projection='3d')
-        self.axis.set_zlabel("Z [nm]")
-
-        self.plot_canvas[5] = FigureCanvasQTAgg(self.figure)
+        # self.figure = Figure(figsize=(self.IMAGE_HEIGHT, self.IMAGE_HEIGHT)) # QUADRATA!
+        # self.figure.patch.set_facecolor('white')
+        #
+        # self.axis = self.figure.add_subplot(111, projection='3d')
+        # self.axis.set_zlabel("Z [nm]")
+        #
+        # self.plot_canvas[5] = FigureCanvasQTAgg(self.figure)
 
         self.profileInfo = oasysgui.textArea(height=self.IMAGE_HEIGHT-5, width=400)
 

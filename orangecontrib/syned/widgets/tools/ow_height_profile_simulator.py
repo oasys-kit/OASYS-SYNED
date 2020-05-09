@@ -1,5 +1,7 @@
 import os, sys
 
+import numpy
+
 from PyQt5.QtWidgets import QApplication
 
 import orangecanvas.resources as resources
@@ -23,7 +25,12 @@ class OWHeightProfileSimulator(OWAbstractHeightErrorProfileSimulator):
     outputs = [{"name": "PreProcessor_Data",
                 "type": OasysPreProcessorData,
                 "doc": "PreProcessor Data",
-                "id": "PreProcessor_Data"}]
+                "id": "PreProcessor_Data"},
+               {"name": "DABAM 1D Profile",
+                "type": numpy.ndarray,
+                "doc": "DABAM 1D Profile",
+                "id": "DABAM 1D Profile"}
+               ]
 
     usage_path = os.path.join(resources.package_dirname("orangecontrib.syned.widgets.tools"), "misc", "height_error_profile_usage.png")
 
@@ -46,6 +53,15 @@ class OWHeightProfileSimulator(OWAbstractHeightErrorProfileSimulator):
                                                                                                                                     surface_data_file=self.heigth_profile_file_name),
                                                                                                       error_profile_x_dim=dimension_x,
                                                                                                       error_profile_y_dim=dimension_y)))
+        self.send_1Dprofile()
+
+    def send_1Dprofile(self):
+
+        if self.yy is None: raise Exception("No Profile Selected")
+        profile1D = numpy.zeros((self.yy.size, 2))
+        profile1D[:, 0] = self.yy
+        profile1D[:, 1] = self.zz[: , self.zz.shape[1] // 2]
+        self.send("DABAM 1D Profile", profile1D)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
