@@ -57,7 +57,7 @@ except:
 from oasys.util.oasys_objects import OasysPreProcessorData, OasysErrorProfileData, OasysSurfaceData
 import oasys.util.oasys_util as OU
 
-from orangecontrib.aps.oasys.widgets.error_profile.abstract_multiple_height_profile_simulator_T import OWAbstractMultipleHeightProfileSimulatorT
+from oasys.widgets.abstract.error_profile.abstract_multiple_height_profile_simulator_T import OWAbstractMultipleHeightProfileSimulatorT
 
 class OWMultipleHeightProfileSimulatorT(OWAbstractMultipleHeightProfileSimulatorT):
     name = "Multiple Height Profile Simulator (T)"
