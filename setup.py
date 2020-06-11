@@ -8,7 +8,7 @@ except AttributeError:
     from setuptools import find_packages, setup
 
 NAME = 'OASYS1-SYNED'
-VERSION = '1.0.27'
+VERSION = '1.0.28'
 ISRELEASED = False
 
 DESCRIPTION = 'SYNED SYNchrotron Elements Dictionary'
@@ -48,6 +48,7 @@ PACKAGE_DATA = {
     "orangecontrib.syned.widgets.sources":["icons/*.png", "icons/*.jpg"],
     "orangecontrib.syned.widgets.beamline_elements":["icons/*.png", "icons/*.jpg"],
     "orangecontrib.syned.widgets.tools":["icons/*.png", "icons/*.jpg", "misc/*.png"],
+    "orangecontrib.syned.widgets.scanning": ["icons/*.png", "icons/*.jpg", "misc/*.png"],
 }
 
 NAMESPACE_PACAKGES = ["orangecontrib", "orangecontrib.syned", "orangecontrib.syned.widgets"]
@@ -58,6 +59,7 @@ ENTRY_POINTS = {
         "Syned Light Sources = orangecontrib.syned.widgets.light_sources",
         "Syned Optical Elements = orangecontrib.syned.widgets.beamline_elements",
         "Syned Tools = orangecontrib.syned.widgets.tools",
+        "Syned Scanning Loops = orangecontrib.syned.widgets.scanning",
     ),
 }
 
