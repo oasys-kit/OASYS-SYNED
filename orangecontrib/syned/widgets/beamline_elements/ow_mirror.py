@@ -57,8 +57,8 @@ class OWMirror(OWOpticalElementWithSurfaceShape):
             coating_thickness = self.coating_thickness
 
         return Mirror(name=self.oe_name,
-                      # boundary_shape=self.get_boundary_shape(),
-                      # surface_shape=self.get_surface_shape(),
+                      boundary_shape=self.get_boundary_shape(),
+                      surface_shape=self.get_surface_shape(),
                       coating=coating_material,
                       coating_thickness=coating_thickness)
 

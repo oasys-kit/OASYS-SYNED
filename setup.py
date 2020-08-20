@@ -8,7 +8,7 @@ except AttributeError:
     from setuptools import find_packages, setup
 
 NAME = 'OASYS1-SYNED'
-VERSION = '1.0.29'
+VERSION = '1.0.30'
 ISRELEASED = False
 
 DESCRIPTION = 'SYNED SYNchrotron Elements Dictionary'
