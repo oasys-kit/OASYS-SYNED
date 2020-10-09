@@ -1,6 +1,6 @@
 import os, sys
 
-import numpy
+import numpy, h5py
 from PyQt5.QtCore import QRect
 from PyQt5.QtWidgets import QApplication, QMessageBox, QFileDialog
 
@@ -149,7 +149,7 @@ class OWThicknessFileReader(OWWidget):
 
     def select_files(self):
         files, _ = QFileDialog.getOpenFileNames(self,
-                                                "Select Thickness Error Profiles", "", "Data Files (*.txt *.dat)",
+                                                "Select Thickness Error Profiles", "", "Data Files (*.txt *.dat *.hdf5 *.h5 *.hdf)",
                                                 options=QFileDialog.Options())
         if files:
             self.surface_file_names = files
@@ -246,22 +246,42 @@ class OWThicknessFileReader(OWWidget):
 
             if self.IS_DEVELOP: raise exception
 
-
     def read_data_files(self):
         self.data = []
 
         for surface_file_name in self.surface_file_names:
             surface_file_name = congruence.checkDir(surface_file_name)
 
-            data = numpy.loadtxt(surface_file_name, delimiter="," if self.separator==0 else " ", skiprows=self.skip_rows)
+            _, extension = os.path.splitext(surface_file_name)
 
-            xx = numpy.unique(data[:, 0]) * self.conversion_to_m_xy
-            yy = numpy.unique(data[:, 1]) * self.conversion_to_m_xy
-            zz = numpy.reshape(data[:, 2], (len(xx), len(yy))).T
+            if extension.lower() in [".txt", ".dat"]:
+                try:
+                    data = numpy.loadtxt(surface_file_name, delimiter="," if self.separator==0 else " ", skiprows=self.skip_rows)
 
+                    xx = numpy.unique(data[:, 0]) * self.conversion_to_m_xy
+                    yy = numpy.unique(data[:, 1]) * self.conversion_to_m_xy
+                    zz = numpy.reshape(data[:, 2], (len(xx), len(yy))).T
+                except Exception as e:
+                    raise IOError("Text file not in WavePy format: " + str(e))
+            elif extension.lower() in [".h5", ".hdf5", ".hdf"]:
+                try:
+                    file = h5py.File(surface_file_name, 'r')
+                    pixel_size = file["pixel_size"][()]
+                    zz = file["thickness_residual"][()]
+
+                    dim_x = zz.shape[0]
+                    dim_y = zz.shape[1]
+                    total_size_x = pixel_size * dim_x
+                    total_size_y = pixel_size * dim_y
+
+                    xx = numpy.linspace(-total_size_x / 2, total_size_x / 2, dim_x) * self.conversion_to_m_xy
+                    yy = numpy.linspace(-total_size_y / 2, total_size_y / 2, dim_y) * self.conversion_to_m_xy
+                except Exception as e:
+                    raise IOError("HDF5 file not in WavePy format: " + str(e))
+            else:
+                raise IOError("Extension not recognized")
             zz = zz * self.conversion_to_m_z if self.negate == 0 else -1.0 * zz * self.conversion_to_m_z
 
             self.data.append([xx, yy, zz])
 
         self.initialize_figures()
-
