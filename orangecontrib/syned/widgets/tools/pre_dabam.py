@@ -61,6 +61,8 @@ class OWpre_dabam(OWWidget):
     to_SI_abscissas = Setting(1e-3)
     to_SI_ordinates = Setting(1.0)
     detrending_option = Setting(0)
+    detrending_window_factor = Setting(1.0)
+    reset_zero_height = Setting(0)
 
     YEAR_FABRICATION        =  Setting("")
     SURFACE_SHAPE           =  Setting(0)
@@ -180,8 +182,19 @@ class OWpre_dabam(OWWidget):
 
         gui.comboBox(out_calc, self, "detrending_option", label="detrending", labelWidth=300,
                      items=["None",
-                            "Fisrt degree polynomial",
+                            "Best circle (linear fit on slopes)",
                             "Ellipse",
+                            ], sendSelectedValue=False, orientation="horizontal")
+
+        box1 = gui.widgetBox(out_calc)
+        oasysgui.lineEdit(box1, self, "detrending_window_factor", "Window factor for fitting",
+                           labelWidth=300, valueType=float, orientation="horizontal")
+        self.show_at('self.detrending_option == 1', box1)
+
+        gui.comboBox(out_calc, self, "reset_zero_height", label="reset zero height", labelWidth=300,
+                     items=["None",
+                            "To height minimum",
+                            "To center",
                             ], sendSelectedValue=False, orientation="horizontal")
 
 
@@ -339,6 +352,7 @@ class OWpre_dabam(OWWidget):
                 self.to_SI_abscissas = 1.0
                 self.to_SI_ordinates = 1.0
                 self.detrending_option = 0
+                self.detrending_window_factor = 1.0
 
                 self.calculate()
 
@@ -483,7 +497,9 @@ class OWpre_dabam(OWWidget):
                                                  useHeightsOrSlopes=self.useHeightsOrSlopes,
                                                  to_SI_abscissas=self.to_SI_abscissas,
                                                  to_SI_ordinates=self.to_SI_ordinates,
-                                                 detrending_flag=detrending_flag)
+                                                 detrending_flag=detrending_flag,
+                                                 detrending_window_factor=self.detrending_window_factor,
+                                                 reset_zero_height=self.reset_zero_height)
 
         self.server = dm
         self.retrieve_profile()
