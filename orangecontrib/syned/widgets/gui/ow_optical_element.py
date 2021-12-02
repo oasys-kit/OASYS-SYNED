@@ -46,13 +46,15 @@ class OWOpticalElement(OWWidget, WidgetDecorator):
 
     want_main_area=0
 
+    is_automatic_run = Setting(0)
+
     MAX_WIDTH = 460
     MAX_HEIGHT = 700
 
     TABS_AREA_HEIGHT = 625
     CONTROL_AREA_WIDTH = 450
 
-    def __init__(self):
+    def __init__(self, show_automatic_box=True):
         super().__init__()
 
         self.runaction = widget.OWAction("Send Data", self)
@@ -92,6 +94,9 @@ class OWOpticalElement(OWWidget, WidgetDecorator):
         self.setMaximumWidth(self.geometry().width())
 
         self.controlArea.setFixedWidth(self.CONTROL_AREA_WIDTH)
+
+        if show_automatic_box :
+            gui.checkBox(self.controlArea, self, 'is_automatic_run', 'Automatic Execution')
 
         self.tabs_setting = oasysgui.tabWidget(self.controlArea)
         self.tabs_setting.setFixedHeight(self.TABS_AREA_HEIGHT)
@@ -152,6 +157,8 @@ class OWOpticalElement(OWWidget, WidgetDecorator):
 
         if not beamline is None:
             self.beamline = beamline
+            if self.is_automatic_run:
+                self.send_data()
 
     def callResetSettings(self):
         if ConfirmDialog.confirmed(parent=self, message="Confirm Reset of the Fields?"):
