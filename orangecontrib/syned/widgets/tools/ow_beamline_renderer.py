@@ -171,20 +171,12 @@ class BeamlineRenderer(AbstractBeamlineRenderer):
                     self.add_point(centers, limits, oe_index=oe_index,
                                    distance=oe_distance, height=height, shift=shift,
                                    label="Ideal Lens", aspect_ratio_modifier=aspect_ratio_modifier)
-                elif isinstance(optical_element, Slit):
-                    x_min, x_max, x_min, x_max = optical_element.get_boundary_shape().get_boundaries()
-                    aperture = [x_max-x_min, x_max-x_min]
+                elif isinstance(optical_element, Slit) or isinstance(optical_element, BeamStopper):
+                    x_min, x_max, y_min, y_max = optical_element.get_boundary_shape().get_boundaries()
+                    aperture = [x_max - x_min, y_max - y_min]
 
-                    label = "Slits"
-
-                    self.add_slits_filter(centers, limits, oe_index=oe_index,
-                                          distance=oe_distance, height=height, shift=shift,
-                                          aperture=aperture, label=label, aspect_ratio_modifier=aspect_ratio_modifier)
-                elif isinstance(optical_element, BeamStopper):
-                    x_min, x_max, x_min, x_max = optical_element.get_boundary_shape().get_boundaries()
-                    aperture = [x_max - x_min, x_max - x_min]
-
-                    label = "Beam Stopper"
+                    if isinstance(optical_element, Slit):          label = "Slits"
+                    elif isinstance(optical_element, BeamStopper): label = "Beam Stopper"
 
                     self.add_slits_filter(centers, limits, oe_index=oe_index,
                                           distance=oe_distance, height=height, shift=shift,
