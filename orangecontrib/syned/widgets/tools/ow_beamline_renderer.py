@@ -166,7 +166,9 @@ class BeamlineRenderer(AbstractBeamlineRenderer):
                 height, shift = get_height_shift()
 
                 if isinstance(optical_element, Screen):
-                    pass # not a physical element
+                    self.add_point(centers, limits, oe_index=oe_index,
+                                   distance=oe_distance, height=height, shift=shift,
+                                   label=None, aspect_ratio_modifier=aspect_ratio_modifier)
                 elif isinstance(optical_element, IdealLens):
                     self.add_point(centers, limits, oe_index=oe_index,
                                    distance=oe_distance, height=height, shift=shift,
