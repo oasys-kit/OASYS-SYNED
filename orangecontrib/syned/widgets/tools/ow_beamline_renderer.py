@@ -87,11 +87,10 @@ class BeamlineRenderer(AbstractBeamlineRenderer):
 
         if not input_data is None:
             self.syned_data = input_data
+            self.render(on_receiving_input=True)
 
-            self.render(init_range=True)
 
-
-    def render_beamline(self, reset_rotation=True):
+    def render_beamline(self):
         if not self.syned_data is None:
             self.figure_canvas.clear_axis()
 
