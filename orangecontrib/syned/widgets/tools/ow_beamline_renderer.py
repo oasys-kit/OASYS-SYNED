@@ -63,7 +63,8 @@ from syned.beamline.optical_elements.mirrors.mirror import Mirror
 from syned.beamline.optical_elements.gratings.grating import Grating
 from syned.beamline.optical_elements.crystals.crystal import Crystal
 
-from oasys.widgets.abstract.beamline_rendering.ow_abstract_beamline_renderer import AbstractBeamlineRenderer, AspectRatioModifier, Orientations, OpticalElementsColors, initialize_arrays
+from oasys.widgets.abstract.beamline_rendering.ow_abstract_beamline_renderer import AbstractBeamlineRenderer, AspectRatioModifier, Orientations, OpticalElementsColors, \
+    initialize_arrays, get_height_shift, get_inclinations
 
 class BeamlineRenderer(AbstractBeamlineRenderer):
     name = "Beamline Renderer"
@@ -107,12 +108,12 @@ class BeamlineRenderer(AbstractBeamlineRenderer):
                                                                                  1.0,
                                                                                  1,0])
             previous_oe_distance    = 0.0
+            previous_image_segment  = 0.0
             previous_image_distance = 0.0
             previous_height = self.initial_height # for better visibility
             previous_shift  = 0.0
-            previous_orientation = Orientations.UP
             beam_horizontal_inclination = 0.0
-            beam_vertical_inclination = 0.0
+            beam_vertical_inclination   = 0.0
 
             if self.draw_source:
                 source             = beamline.get_light_source()
@@ -141,36 +142,27 @@ class BeamlineRenderer(AbstractBeamlineRenderer):
                 coordinates     = beamline_element.get_coordinates()
                 optical_element = beamline_element.get_optical_element()
 
-                source_distance = coordinates.p()
-                image_distance = coordinates.q()
+                source_segment = coordinates.p()
+                image_segment  = coordinates.q()
 
-                oe_distance = previous_oe_distance + previous_image_distance + source_distance
+                source_distance = source_segment * numpy.cos(beam_vertical_inclination) * numpy.cos(beam_horizontal_inclination)
 
-                def get_height_shift():
-                    if previous_orientation == Orientations.UP:
-                        height = previous_height + (source_distance + previous_image_distance)*numpy.sin(2*beam_vertical_inclination)
-                        shift  = previous_shift
-                    elif previous_orientation == Orientations.DOWN:
-                        height = previous_height - (source_distance + previous_image_distance)*numpy.sin(2*beam_vertical_inclination)
-                        shift  = previous_shift
-                    if previous_orientation == Orientations.LEFT:
-                        height = previous_height
-                        shift  = previous_shift - (source_distance + previous_image_distance)*numpy.sin(2*beam_horizontal_inclination)
-                    elif previous_orientation == Orientations.RIGHT:
-                        height = previous_height
-                        shift  = previous_shift + (source_distance + previous_image_distance)*numpy.sin(2*beam_horizontal_inclination)
+                segment_to_oe     = previous_image_segment + source_segment
+                oe_total_distance = previous_oe_distance   + previous_image_distance + source_distance
 
-                    return height, shift
-
-                height, shift = get_height_shift()
+                height, shift = get_height_shift(segment_to_oe,
+                                                 previous_height,
+                                                 previous_shift,
+                                                 beam_vertical_inclination,
+                                                 beam_horizontal_inclination)
 
                 if isinstance(optical_element, Screen):
                     self.add_point(centers, limits, oe_index=oe_index,
-                                   distance=oe_distance, height=height, shift=shift,
+                                   distance=oe_total_distance, height=height, shift=shift,
                                    label=None, aspect_ratio_modifier=aspect_ratio_modifier)
                 elif isinstance(optical_element, IdealLens):
                     self.add_point(centers, limits, oe_index=oe_index,
-                                   distance=oe_distance, height=height, shift=shift,
+                                   distance=oe_total_distance, height=height, shift=shift,
                                    label="Ideal Lens", aspect_ratio_modifier=aspect_ratio_modifier)
                 elif isinstance(optical_element, Slit) or isinstance(optical_element, BeamStopper):
                     x_min, x_max, y_min, y_max = optical_element.get_boundary_shape().get_boundaries()
@@ -180,11 +172,11 @@ class BeamlineRenderer(AbstractBeamlineRenderer):
                     elif isinstance(optical_element, BeamStopper): label = "Beam Stopper"
 
                     self.add_slits_filter(centers, limits, oe_index=oe_index,
-                                          distance=oe_distance, height=height, shift=shift,
+                                          distance=oe_total_distance, height=height, shift=shift,
                                           aperture=aperture, label=label, aspect_ratio_modifier=aspect_ratio_modifier)
                 elif isinstance(optical_element, Filter):
                     self.add_slits_filter(centers, limits, oe_index=oe_index,
-                                          distance=oe_distance, height=height, shift=shift,
+                                          distance=oe_total_distance, height=height, shift=shift,
                                           aperture=None, label="Filter (" + optical_element.get_material() + ")",
                                           aspect_ratio_modifier=aspect_ratio_modifier)
                 elif (isinstance(optical_element, Mirror) or
@@ -214,28 +206,30 @@ class BeamlineRenderer(AbstractBeamlineRenderer):
                         color = OpticalElementsColors.CRYSTAL
                         label = "Crystal"
 
+                    absolute_inclination, beam_horizontal_inclination, beam_vertical_inclination = get_inclinations(orientation, inclination, beam_vertical_inclination, beam_horizontal_inclination)
+
                     self.add_optical_element(centers, limits, oe_index=oe_index,
-                                             distance=oe_distance, height=height, shift=shift,
-                                             length=length, width=width, thickness=0.01, inclination=inclination, orientation=orientation,
+                                             distance=oe_total_distance, height=height, shift=shift,
+                                             length=length, width=width, thickness=0.01, inclination=absolute_inclination, orientation=orientation,
                                              color=color, aspect_ration_modifier=aspect_ratio_modifier, label=label)
+                    image_distance = image_segment * numpy.cos(beam_vertical_inclination) * numpy.cos(beam_horizontal_inclination)  # new direction
 
-                    if orientation == Orientations.UP:      beam_vertical_inclination += inclination
-                    elif orientation == Orientations.DOWN:  beam_vertical_inclination -= inclination
-                    elif orientation == Orientations.LEFT:  beam_horizontal_inclination -= inclination
-                    elif orientation == Orientations.RIGHT: beam_horizontal_inclination += inclination
+                    previous_height = height
+                    previous_shift = shift
+                    previous_oe_distance = oe_total_distance
+                    previous_image_segment = image_segment
+                    previous_image_distance = image_distance
 
-                    previous_orientation = orientation
+                height, shift = get_height_shift(previous_image_segment,
+                                                 previous_height,
+                                                 previous_shift,
+                                                 beam_vertical_inclination,
+                                                 beam_horizontal_inclination)
 
-                previous_height         = height
-                previous_shift          = shift
-                previous_oe_distance    = oe_distance
-                previous_image_distance = image_distance
-
-            height, shift = get_height_shift()
-            self.add_point(centers, limits, oe_index=number_of_elements - 1,
-                           distance=previous_oe_distance + previous_image_distance,
-                           height=height, shift=shift, label="End Point",
-                           aspect_ratio_modifier=aspect_ratio_modifier)
+                self.add_point(centers, limits, oe_index=number_of_elements - 1,
+                               distance=previous_oe_distance + previous_image_distance,
+                               height=height, shift=shift, label="End Point",
+                               aspect_ratio_modifier=aspect_ratio_modifier)
 
             return number_of_elements, centers, limits
 
