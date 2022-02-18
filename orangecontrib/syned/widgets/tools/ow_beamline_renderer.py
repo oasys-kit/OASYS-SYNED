@@ -212,24 +212,25 @@ class BeamlineRenderer(AbstractBeamlineRenderer):
                                              distance=oe_total_distance, height=height, shift=shift,
                                              length=length, width=width, thickness=0.01, inclination=absolute_inclination, orientation=orientation,
                                              color=color, aspect_ration_modifier=aspect_ratio_modifier, label=label)
-                    image_distance = image_segment * numpy.cos(beam_vertical_inclination) * numpy.cos(beam_horizontal_inclination)  # new direction
 
-                    previous_height = height
-                    previous_shift = shift
-                    previous_oe_distance = oe_total_distance
-                    previous_image_segment = image_segment
-                    previous_image_distance = image_distance
+                image_distance = image_segment * numpy.cos(beam_vertical_inclination) * numpy.cos(beam_horizontal_inclination)  # new direction
 
-                height, shift = get_height_shift(previous_image_segment,
-                                                 previous_height,
-                                                 previous_shift,
-                                                 beam_vertical_inclination,
-                                                 beam_horizontal_inclination)
+                previous_height = height
+                previous_shift = shift
+                previous_oe_distance = oe_total_distance
+                previous_image_segment = image_segment
+                previous_image_distance = image_distance
 
-                self.add_point(centers, limits, oe_index=number_of_elements - 1,
-                               distance=previous_oe_distance + previous_image_distance,
-                               height=height, shift=shift, label="End Point",
-                               aspect_ratio_modifier=aspect_ratio_modifier)
+            height, shift = get_height_shift(previous_image_segment,
+                                             previous_height,
+                                             previous_shift,
+                                             beam_vertical_inclination,
+                                             beam_horizontal_inclination)
+
+            self.add_point(centers, limits, oe_index=number_of_elements - 1,
+                           distance=previous_oe_distance + previous_image_distance,
+                           height=height, shift=shift, label="End Point",
+                           aspect_ratio_modifier=aspect_ratio_modifier)
 
             return number_of_elements, centers, limits
 
