@@ -148,7 +148,7 @@ class OWLightSource(OWWidget):
         oasysgui.lineEdit(self.electron_beam_box, self, "ring_current", "Ring Current [A]", labelWidth=260, valueType=float, orientation="horizontal")
 
         gui.comboBox(self.electron_beam_box, self, "type_of_properties", label="Electron Beam Properties", labelWidth=350,
-                     items=["From 2nd Moments", "From Size/Divergence", "From Twiss papameters","Zero emittance"],
+                     items=["From 2nd Moments", "From Size/Divergence", "From Twiss parameters","Zero emittance"],
                      callback=self.set_TypeOfProperties,
                      sendSelectedValue=False, orientation="horizontal")
 
