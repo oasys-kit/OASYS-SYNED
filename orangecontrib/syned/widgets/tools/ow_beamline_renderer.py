@@ -206,7 +206,7 @@ class BeamlineRenderer(AbstractBeamlineRenderer):
                         color = OpticalElementsColors.CRYSTAL
                         label = "Crystal"
 
-                    absolute_inclination, beam_horizontal_inclination, beam_vertical_inclination = get_inclinations(orientation, inclination, beam_vertical_inclination, beam_horizontal_inclination)
+                    absolute_inclination, beam_horizontal_inclination, beam_vertical_inclination = get_inclinations(orientation, inclination, inclination, beam_vertical_inclination, beam_horizontal_inclination)
 
                     self.add_optical_element(centers, limits, oe_index=oe_index,
                                              distance=oe_total_distance, height=height, shift=shift,
