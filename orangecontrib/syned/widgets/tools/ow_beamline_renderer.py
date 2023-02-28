@@ -46,7 +46,6 @@
 # ----------------------------------------------------------------------- #
 
 import numpy
-from Shadow import OE, IdealLensOE, CompoundOE
 
 from syned.beamline.beamline import Beamline
 
@@ -58,7 +57,7 @@ from syned.beamline.optical_elements.absorbers.slit import Slit
 from syned.beamline.optical_elements.absorbers.beam_stopper import BeamStopper
 from syned.beamline.optical_elements.absorbers.filter import Filter
 from syned.beamline.optical_elements.ideal_elements.screen import Screen
-from syned.beamline.optical_elements.ideal_elements.lens import IdealLens
+from syned.beamline.optical_elements.ideal_elements.ideal_lens import IdealLens
 from syned.beamline.optical_elements.mirrors.mirror import Mirror
 from syned.beamline.optical_elements.gratings.grating import Grating
 from syned.beamline.optical_elements.crystals.crystal import Crystal
