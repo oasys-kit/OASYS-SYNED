@@ -2,8 +2,7 @@ import os, sys
 import numpy
 
 from PyQt5.QtCore import QRect, Qt
-from PyQt5.QtWidgets import QApplication, QMessageBox, QScrollArea, QTableWidget, QTableWidgetItem, QHeaderView, QAbstractItemView, QWidget, QLabel, QSizePolicy
-from PyQt5.QtGui import QTextCursor,QFont, QPalette, QColor, QPainter, QBrush, QPen, QPixmap
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QLabel, QSizePolicy
 from PyQt5.QtWidgets import QApplication
 from PyQt5 import QtGui
@@ -12,7 +11,7 @@ from silx.gui.plot import Plot2D
 
 import orangecanvas.resources as resources
 
-from orangewidget import gui, widget
+from orangewidget import gui
 from orangewidget.settings import Setting
 
 from oasys.widgets.widget import OWWidget
@@ -23,15 +22,15 @@ from oasys.util.oasys_objects import OasysSurfaceData
 from oasys.util.oasys_util import write_surface_file
 from oasys.util.oasys_util import EmittingStream
 
-from orangecontrib.syned.util.diaboloid_tools import diaboloid_approximated_point_to_segment
-from orangecontrib.syned.util.diaboloid_tools import diaboloid_approximated_segment_to_point
-from orangecontrib.syned.util.diaboloid_tools import diaboloid_exact_point_to_segment
-from orangecontrib.syned.util.diaboloid_tools import diaboloid_exact_segment_to_point
-from orangecontrib.syned.util.diaboloid_tools import parabolic_cone_point_to_segment
-from orangecontrib.syned.util.diaboloid_tools import parabolic_cone_segment_to_point
-from orangecontrib.syned.util.diaboloid_tools import parabolic_cone_linearized_point_to_segment
-from orangecontrib.syned.util.diaboloid_tools import parabolic_cone_linearized_segment_to_point
-from orangecontrib.syned.util.diaboloid_tools import toroid_point_to_segment, toroid_segment_to_point
+from syned.tools.diaboloid.diaboloid_calculator import diaboloid_approximated_point_to_segment
+from syned.tools.diaboloid.diaboloid_calculator import diaboloid_approximated_segment_to_point
+from syned.tools.diaboloid.diaboloid_calculator import diaboloid_exact_point_to_segment
+from syned.tools.diaboloid.diaboloid_calculator import diaboloid_exact_segment_to_point
+from syned.tools.diaboloid.diaboloid_calculator import parabolic_cone_point_to_segment
+from syned.tools.diaboloid.diaboloid_calculator import parabolic_cone_segment_to_point
+from syned.tools.diaboloid.diaboloid_calculator import parabolic_cone_linearized_point_to_segment
+from syned.tools.diaboloid.diaboloid_calculator import parabolic_cone_linearized_segment_to_point
+from syned.tools.diaboloid.diaboloid_calculator import toroid_point_to_segment, toroid_segment_to_point
 
 class OWDiaboloid(OWWidget):
     name = "Diaboloid"
