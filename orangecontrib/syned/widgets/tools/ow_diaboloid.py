@@ -22,15 +22,15 @@ from oasys.util.oasys_objects import OasysSurfaceData
 from oasys.util.oasys_util import write_surface_file
 from oasys.util.oasys_util import EmittingStream
 
-from syned.tools.diaboloid.diaboloid_calculator import diaboloid_approximated_point_to_segment
-from syned.tools.diaboloid.diaboloid_calculator import diaboloid_approximated_segment_to_point
-from syned.tools.diaboloid.diaboloid_calculator import diaboloid_exact_point_to_segment
-from syned.tools.diaboloid.diaboloid_calculator import diaboloid_exact_segment_to_point
-from syned.tools.diaboloid.diaboloid_calculator import parabolic_cone_point_to_segment
-from syned.tools.diaboloid.diaboloid_calculator import parabolic_cone_segment_to_point
-from syned.tools.diaboloid.diaboloid_calculator import parabolic_cone_linearized_point_to_segment
-from syned.tools.diaboloid.diaboloid_calculator import parabolic_cone_linearized_segment_to_point
-from syned.tools.diaboloid.diaboloid_calculator import toroid_point_to_segment, toroid_segment_to_point
+from srxraylib.profiles.diaboloid.diaboloid_calculator import diaboloid_approximated_point_to_segment
+from srxraylib.profiles.diaboloid.diaboloid_calculator import diaboloid_approximated_segment_to_point
+from srxraylib.profiles.diaboloid.diaboloid_calculator import diaboloid_exact_point_to_segment
+from srxraylib.profiles.diaboloid.diaboloid_calculator import diaboloid_exact_segment_to_point
+from srxraylib.profiles.diaboloid.diaboloid_calculator import parabolic_cone_point_to_segment
+from srxraylib.profiles.diaboloid.diaboloid_calculator import parabolic_cone_segment_to_point
+from srxraylib.profiles.diaboloid.diaboloid_calculator import parabolic_cone_linearized_point_to_segment
+from srxraylib.profiles.diaboloid.diaboloid_calculator import parabolic_cone_linearized_segment_to_point
+from srxraylib.profiles.diaboloid.diaboloid_calculator import toroid_point_to_segment, toroid_segment_to_point
 
 class OWDiaboloid(OWWidget):
     name = "Diaboloid"
