@@ -62,7 +62,7 @@ from syned.beamline.optical_elements.mirrors.mirror import Mirror
 from syned.beamline.optical_elements.gratings.grating import Grating
 from syned.beamline.optical_elements.crystals.crystal import Crystal
 
-from syned.gui.beamline_rendering.ow_abstract_beamline_renderer import AbstractBeamlineRenderer, AspectRatioModifier, Orientations, OpticalElementsColors, \
+from syned_gui.beamline_rendering.ow_abstract_beamline_renderer import AbstractBeamlineRenderer, AspectRatioModifier, Orientations, OpticalElementsColors, \
     initialize_arrays, get_height_shift, get_inclinations
 
 class BeamlineRenderer(AbstractBeamlineRenderer):

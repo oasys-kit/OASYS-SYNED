@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication
 
 import orangecanvas.resources as resources
 
-from syned.gui.error_profile.abstract_height_profile_simulator import OWAbstractHeightErrorProfileSimulator
+from syned_gui.error_profile.abstract_height_profile_simulator import OWAbstractHeightErrorProfileSimulator
 
 from oasys.util.oasys_objects import OasysPreProcessorData, OasysErrorProfileData, OasysSurfaceData
 import oasys.util.oasys_util as OU
