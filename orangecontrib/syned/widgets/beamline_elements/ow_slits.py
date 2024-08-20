@@ -10,7 +10,7 @@ class OWSlit(OWOpticalElementWithBoundaryShape):
     priority = 2
 
     def __init__(self):
-        super().__init__()
+        super().__init__(allow_angle_radial=False, allow_angle_azimuthal=False)
 
     def get_optical_element(self):
         return Slit(name=self.oe_name,

@@ -264,7 +264,7 @@ class OWThicknessFileReader(OWWidget):
                 except Exception as e:
                     raise IOError("Text file not in WavePy format: " + str(e))
             elif extension.lower() in [".h5", ".hdf5", ".hdf"]:
-                try:
+                try: #WavePy format
                     file = h5py.File(surface_file_name, 'r')
                     pixel_size = file["pixel_size"][()]
                     zz = file["thickness_residual"][()]
@@ -277,7 +277,13 @@ class OWThicknessFileReader(OWWidget):
                     xx = numpy.linspace(-total_size_x / 2, total_size_x / 2, dim_x) * self.conversion_to_m_xy
                     yy = numpy.linspace(-total_size_y / 2, total_size_y / 2, dim_y) * self.conversion_to_m_xy
                 except Exception as e:
-                    raise IOError("HDF5 file not in WavePy format: " + str(e))
+                    try: # OASYS surface data format
+                        file = h5py.File(surface_file_name, 'r')
+                        zz = file["surface_file" + "/Z"][()]
+                        xx = file["surface_file" + "/X"][()] * self.conversion_to_m_xy
+                        yy = file["surface_file" + "/Y"][()] * self.conversion_to_m_xy
+                    except Exception as ee:
+                        raise IOError("HDF5 file not in WavePy/OASYS format: " + str(e) + str(ee))
             else:
                 raise IOError("Extension not recognized")
             zz = zz * self.conversion_to_m_z if self.negate == 0 else -1.0 * zz * self.conversion_to_m_z

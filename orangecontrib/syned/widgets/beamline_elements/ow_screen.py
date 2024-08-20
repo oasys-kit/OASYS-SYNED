@@ -11,7 +11,7 @@ class OWScreen(OWOpticalElement):
     priority = 4
 
     def __init__(self):
-        super().__init__()
+        super().__init__(allow_angle_radial=False, allow_angle_azimuthal=False)
 
     def draw_specific_box(self):
         pass

@@ -48,13 +48,13 @@ class OWOpticalElement(OWWidget, WidgetDecorator):
 
     is_automatic_run = Setting(0)
 
-    MAX_WIDTH = 460
-    MAX_HEIGHT = 700
+    MAX_WIDTH = 460 + 10
+    MAX_HEIGHT = 700 + 25
 
     TABS_AREA_HEIGHT = 625
     CONTROL_AREA_WIDTH = 450
 
-    def __init__(self, show_automatic_box=True):
+    def __init__(self, show_automatic_box=True, allow_angle_radial=True, allow_angle_azimuthal=True):
         super().__init__()
 
         self.runaction = widget.OWAction("Send Data", self)
@@ -108,10 +108,10 @@ class OWOpticalElement(OWWidget, WidgetDecorator):
 
         self.coordinates_box = oasysgui.widgetBox(self.tab_bas, "Coordinates", addSpace=True, orientation="vertical")
 
-        oasysgui.lineEdit(self.coordinates_box, self, "p", "Distance from previous Continuation Plane [m]", labelWidth=280, valueType=float, orientation="horizontal")
-        oasysgui.lineEdit(self.coordinates_box, self, "q", "Distance to next Continuation Plane [m]", labelWidth=280, valueType=float, orientation="horizontal")
-        oasysgui.lineEdit(self.coordinates_box, self, "angle_radial", "Incident Angle (to normal) [deg]", labelWidth=280, valueType=float, orientation="horizontal")
-        oasysgui.lineEdit(self.coordinates_box, self, "angle_azimuthal", "Rotation along Beam Axis [deg]", labelWidth=280, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(self.coordinates_box, self, "p", "Distance from previous Continuation Plane [m]", labelWidth=320, valueType=float, orientation="horizontal")
+        oasysgui.lineEdit(self.coordinates_box, self, "q", "Distance to next Continuation Plane [m]", labelWidth=320, valueType=float, orientation="horizontal")
+        if allow_angle_radial: oasysgui.lineEdit(self.coordinates_box, self, "angle_radial", "Incident Angle (to normal) [deg]", labelWidth=280, valueType=float, orientation="horizontal")
+        if allow_angle_azimuthal: oasysgui.lineEdit(self.coordinates_box, self, "angle_azimuthal", "Rotation along Beam Axis [deg]", labelWidth=280, valueType=float, orientation="horizontal")
 
         self.draw_specific_box()
 

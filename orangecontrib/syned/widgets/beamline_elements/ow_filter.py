@@ -18,17 +18,17 @@ class OWFilter(OWOpticalElement):
     icon = "icons/filter.png"
     priority = 3
 
-    thickness = Setting(0.0)
-    material = Setting("")
+    thickness = Setting(1e-6)
+    material = Setting("Si")
 
     def __init__(self):
-        super().__init__()
+        super().__init__(allow_angle_radial=False, allow_angle_azimuthal=False)
 
     def draw_specific_box(self):
 
         self.filter_box = oasysgui.widgetBox(self.tab_bas, "Filter Setting", addSpace=True, orientation="vertical")
 
-        oasysgui.lineEdit(self.filter_box, self, "material", "Material [Chemical Formula]", labelWidth=180, valueType=str, orientation="horizontal")
+        oasysgui.lineEdit(self.filter_box, self, "material", "Material [Chemical Formula]", labelWidth=200, valueType=str, orientation="horizontal")
         oasysgui.lineEdit(self.filter_box, self, "thickness", "Thickness [m]", labelWidth=260, valueType=float, orientation="horizontal")
 
 
@@ -45,4 +45,11 @@ class OWFilter(OWOpticalElement):
         congruence.checkStrictlyPositiveNumber(self.thickness, "Thickness")
 
 
+if __name__ == "__main__":
+    from PyQt5.QtWidgets import QApplication
+    app = QApplication(sys.argv)
+    w = OWFilter()
+    w.show()
+    app.exec()
+    # w.saveSettings()
 
