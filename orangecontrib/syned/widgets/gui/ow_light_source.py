@@ -257,16 +257,16 @@ class OWLightSource(OWWidget):
                                          sigma_yp=self.electron_beam_divergence_v)
 
         elif self.type_of_properties == 2:
-            electron_beam.set_twiss_horizontal(self.electron_beam_emittance_h,
-                                             self.electron_beam_alpha_h,
-                                             self.electron_beam_beta_h,
-                                             self.electron_beam_eta_h,
-                                             self.electron_beam_etap_h)
-            electron_beam.set_twiss_vertical(self.electron_beam_emittance_v,
-                                             self.electron_beam_alpha_v,
-                                             self.electron_beam_beta_v,
-                                             self.electron_beam_eta_v,
-                                             self.electron_beam_etap_v)
+            electron_beam.set_twiss_horizontal(emittance_x=self.electron_beam_emittance_h,
+                                               alpha_x=self.electron_beam_alpha_h,
+                                               beta_x=self.electron_beam_beta_h,
+                                               eta_x=self.electron_beam_eta_h,
+                                               etap_x=self.electron_beam_etap_h)
+            electron_beam.set_twiss_vertical(emittance_y=self.electron_beam_emittance_v,
+                                             alpha_y=self.electron_beam_alpha_v,
+                                             beta_y=self.electron_beam_beta_v,
+                                             eta_y=self.electron_beam_eta_v,
+                                             etap_y=self.electron_beam_etap_v)
 
         elif self.type_of_properties == 3:
             electron_beam.set_moments_all(0,0,0,0,0,0)
